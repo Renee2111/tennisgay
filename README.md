@@ -23,7 +23,7 @@
   ├── Customer (Khách Hàng)
   └── Employee (Nhân Viên)
   
-  Yard (sân - Độc Lập)
+  Yard (Sân - Độc Lập)
   
   Invoice (Hóa Đơn - Độc Lập)
   
@@ -96,13 +96,13 @@ Lớp cơ sở cho tất cả người dùng của hệ thống.
 - `customerCccd` (string): Tham chiếu đến CCCD khách hàng
 - `employeeCccd` (string): Tham chiếu đến CCCD nhân viên tạo hóa đơn
 - `yardId` (string): Tham chiếu đến phòng được đặt
-- `dateFrom` (string): Giờ ngày nhận sân (YYYY-MM-DD)
-- `dateTo` (string): Giờ ngày trả sân (YYYY-MM-DD)
+- `dateFrom` (string): Giờ ngày nhận sân (__:__ YYYY-MM-DD)
+- `dateTo` (string): Giờ ngày trả sân (__:__ YYYY-MM-DD)
 - `total` (double): Tổng số tiền tính phí
 
 **Phương Thức:**
 - `getInvoiceId()`, `getCustomerCccd()`, `getEmployeeCccd()`, `getYardId()`, `getDateFrom()`, `getDateTo()`, `getTotal()`: Các hàm lấy dữ liệu
-- `toCSV()`, `fromCSV()`: Tuần tự hóa CSV
+- `toCSV()`: Tuần tự hóa CSV
 
 #### **Account** (Tài Khoản)
 Đại diện cho một tài khoản người dùng trong hệ thống xác thực.
