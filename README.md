@@ -46,7 +46,6 @@ Lớp cơ sở cho tất cả người dùng của hệ thống.
 - `getCccd()`,`getName()`,`getPhone()`,`getEmail()`:Hàm lấy dữ liệu.
 - `setName()`,`setPhone()`,`setEmail()`:Hàm đặt dữ liệu.
 - `toCSV()`: Chuyển đổi sang định dạng CSV (thuẩn ảo)
-- `fromCSV()`: Phân tích từ định dạng CSV (thuần ảo)
 
 #### **Customer** (Kế Thừa từ Person)
 Đại diện cho một khách hàng.
