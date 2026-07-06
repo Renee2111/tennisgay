@@ -95,8 +95,8 @@ Lớp cơ sở cho tất cả người dùng của hệ thống.
 - `customerCccd` (string): Tham chiếu đến CCCD khách hàng
 - `employeeCccd` (string): Tham chiếu đến CCCD nhân viên tạo hóa đơn
 - `yardId` (string): Tham chiếu đến phòng được đặt
-- `dateFrom` (string): Giờ ngày nhận sân (__:__ YYYY-MM-DD)
-- `dateTo` (string): Giờ ngày trả sân (__:__ YYYY-MM-DD)
+- `dateFrom` (string): Giờ ngày nhận sân (AA:AA YYYY-MM-DD)
+- `dateTo` (string): Giờ ngày trả sân (AA:AA YYYY-MM-DD)
 - `total` (double): Tổng số tiền tính phí
 
 **Phương Thức:**
