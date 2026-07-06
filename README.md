@@ -49,7 +49,7 @@ Lớp cơ sở cho tất cả người dùng của hệ thống.
 - `fromCSV()`: Phân tích từ định dạng CSV (thuần ảo)
 
 #### **Customer** (Kế Thừa từ Person)
-Đại diện cho một khách hàng khách sạn.
+Đại diện cho một khách hàng.
 
 **Được kế thức toàn bộ thuộc tính và phương thức lấy từ person(Lớp cha)**
 
@@ -59,46 +59,46 @@ Lớp cơ sở cho tất cả người dùng của hệ thống.
 
 **Phương Thức Mới:**
 - `getBirthdate()`, `getAddress()`: Các hàm lấy dữ liệu
-- `toCSV()`, `fromCSV()`: Tuần tự hóa CSV
+- `toCSV()`: Tuần tự hóa CSV
 
 #### **Employee** (Kế Thừa từ Person)
-Đại diện cho một nhân viên khách sạn.
+Đại diện cho một nhân viên.
 
 **Được kế thức toàn bộ thuộc tính và phương thức lấy từ person(Lớp cha)**
 
 **Thuộc Tính Bổ Sung:**
-- `position` (string): Vị trí công việc (ví dụ: Quản lý, Nhân Viên)
+- `position` (string): Vị trí công việc (ví dụ: Admin, Nhân Viên)
 - `salary` (double): Lương hàng tháng
 
 **Phương Thức Mới:**
 - `getPosition()`, `getSalary()`: Các hàm lấy dữ liệu
-- `toCSV()`, `fromCSV()`: Tuần tự hóa CSV
+- `toCSV()`: Tuần tự hóa CSV
 
 #### **Yard** (Sân)
 Đại diện cho một sân Tennis.
 
 **Thuộc Tính:**
-- `yardId` (string): Mã phòng duy nhất (ví dụ: R101, R202)
-- `type` (string): Loại phòng (ví dụ: Đơn, Đôi, Gia Đình)
-- `price` (double): Giá mỗi đêm
-- `available` (boolean): Trạng thái sẵn có (true = có sẵn, false = đã đặt)
+- `yardId` (string): Mã sân duy nhất 
+- `yardType` (string): Loại phòng (ví dụ:Vip,Thuong,Sang)
+- `pricePerHour` (double): Giá mỗi giờ
+- `available` (bool): Trạng thái sẵn có (true = có sẵn, false = đã đặt)
 
 **Phương Thức:**
-- `getYardId()`, `getType()`, `getPrice()`, `isAvailable()`: Các hàm lấy dữ liệu
+- `getYardId()`, `getYardType()`, `getPricePerHour()`, `getAvailable()`: Các hàm lấy dữ liệu
 - `setAvailable()`: Đặt trạng thái sẵn có
-- `toCSV()`, `fromCSV()`: Tuần tự hóa CSV
+- `toCSV()`: Tuần tự hóa CSV
 
 #### **Invoice** (Hóa Đơn)
 Đại diện cho một đơn đặt sân/hóa đơn khách hàng.
 
 **Thuộc Tính:**
-- `invoiceId` (chuỗi): Mã hóa đơn duy nhất
-- `customerCccd` (chuỗi): Tham chiếu đến CCCD khách hàng
-- `employeeCccd` (chuỗi): Tham chiếu đến CCCD nhân viên tạo hóa đơn
-- `yardId` (chuỗi): Tham chiếu đến phòng được đặt
-- `dateFrom` (chuỗi): Giờ ngày nhận sân (YYYY-MM-DD)
-- `dateTo` (chuỗi): Giờ ngày trả sân (YYYY-MM-DD)
-- `total` (số thực): Tổng số tiền tính phí
+- `invoiceId` (string): Mã hóa đơn duy nhất
+- `customerCccd` (string): Tham chiếu đến CCCD khách hàng
+- `employeeCccd` (string): Tham chiếu đến CCCD nhân viên tạo hóa đơn
+- `yardId` (string): Tham chiếu đến phòng được đặt
+- `dateFrom` (string): Giờ ngày nhận sân (YYYY-MM-DD)
+- `dateTo` (string): Giờ ngày trả sân (YYYY-MM-DD)
+- `total` (double): Tổng số tiền tính phí
 
 **Phương Thức:**
 - `getInvoiceId()`, `getCustomerCccd()`, `getEmployeeCccd()`, `getYardId()`, `getDateFrom()`, `getDateTo()`, `getTotal()`: Các hàm lấy dữ liệu
@@ -108,20 +108,20 @@ Lớp cơ sở cho tất cả người dùng của hệ thống.
 Đại diện cho một tài khoản người dùng trong hệ thống xác thực.
 
 **Thuộc Tính:**
-- `username` (chuỗi): Tên đăng nhập duy nhất
-- `password` (chuỗi): Mật khẩu (lưu trữ dạng văn bản cho mục đích demo)
-- `role` (số nguyên): Vai trò người dùng (0 = Admin, 1 = Nhân Viên, 2 = Khách Hàng)
-- `cccd` (chuỗi): CCCD liên kết (trống cho Admin)
+- `username` (string): Tên đăng nhập duy nhất
+- `password` (string): Mật khẩu (lưu trữ dạng văn bản cho mục đích demo)
+- `role` (int): Vai trò người dùng (0 = Admin, 1 = Nhân Viên, 2 = Khách Hàng)
+- `cccd` (string): CCCD liên kết (trống cho Admin)
 
 **Phương Thức:**
 - `getUsername()`, `getPassword()`, `getRole()`, `getCccd()`: Các hàm lấy dữ liệu
-- `toCSV()`, `fromCSV()`: Tuần tự hóa CSV
+- `toCSV()`: Tuần tự hóa CSV
 
 #### **YardManager** (Lớp Quản Lý Chính)
 Lớp quản lý trung tâm điều phối tất cả các hoạt động của chương trình.
 
 **Thuộc Tính:**
-- `dataDir` (chuỗi): Đường dẫn đến thư mục dữ liệu
+- `dataDir` (string): Đường dẫn đến thư mục dữ liệu
 - `customers` (vector<Customer>): Tất cả khách hàng
 - `employees` (vector<Employee>): Tất cả nhân viên
 - `yards` (vector<Room>): Tất cả sân
