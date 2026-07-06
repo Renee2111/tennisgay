@@ -24,5 +24,5 @@ void Person:: setPhone (const std::string &phone){
     this->phone=phone;
 };
 void Person:: setEmail(const std::string &email){
-    this->email=email
+    this->email=email;
 };
