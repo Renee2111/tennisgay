@@ -78,7 +78,7 @@ Lớp cơ sở cho tất cả người dùng của hệ thống.
 Đại diện cho một sân Tennis.
 
 **Thuộc Tính:**
-- `roomId` (string): Mã phòng duy nhất (ví dụ: R101, R202)
+- `yardId` (string): Mã phòng duy nhất (ví dụ: R101, R202)
 - `type` (string): Loại phòng (ví dụ: Đơn, Đôi, Gia Đình)
 - `price` (double): Giá mỗi đêm
 - `available` (boolean): Trạng thái sẵn có (true = có sẵn, false = đã đặt)
@@ -96,12 +96,12 @@ Lớp cơ sở cho tất cả người dùng của hệ thống.
 - `customerCccd` (chuỗi): Tham chiếu đến CCCD khách hàng
 - `employeeCccd` (chuỗi): Tham chiếu đến CCCD nhân viên tạo hóa đơn
 - `yardId` (chuỗi): Tham chiếu đến phòng được đặt
-- `dateFrom` (chuỗi): Ngày nhận phòng (YYYY-MM-DD)
-- `dateTo` (chuỗi): Ngày trả phòng (YYYY-MM-DD)
+- `dateFrom` (chuỗi): Giờ ngày nhận sân (YYYY-MM-DD)
+- `dateTo` (chuỗi): Giờ ngày trả sân (YYYY-MM-DD)
 - `total` (số thực): Tổng số tiền tính phí
 
 **Phương Thức:**
-- `getInvoiceId()`, `getCustomerCccd()`, `getEmployeeCccd()`, `getyardId()`, `getDateFrom()`, `getDateTo()`, `getTotal()`: Các hàm lấy dữ liệu
+- `getInvoiceId()`, `getCustomerCccd()`, `getEmployeeCccd()`, `getYardId()`, `getDateFrom()`, `getDateTo()`, `getTotal()`: Các hàm lấy dữ liệu
 - `toCSV()`, `fromCSV()`: Tuần tự hóa CSV
 
 #### **Account** (Tài Khoản)
@@ -117,14 +117,14 @@ Lớp cơ sở cho tất cả người dùng của hệ thống.
 - `getUsername()`, `getPassword()`, `getRole()`, `getCccd()`: Các hàm lấy dữ liệu
 - `toCSV()`, `fromCSV()`: Tuần tự hóa CSV
 
-#### **HotelManager** (Lớp Quản Lý Chính)
+#### **YardManager** (Lớp Quản Lý Chính)
 Lớp quản lý trung tâm điều phối tất cả các hoạt động của chương trình.
 
 **Thuộc Tính:**
 - `dataDir` (chuỗi): Đường dẫn đến thư mục dữ liệu
 - `customers` (vector<Customer>): Tất cả khách hàng
 - `employees` (vector<Employee>): Tất cả nhân viên
-- `rooms` (vector<Room>): Tất cả phòng
+- `yards` (vector<Room>): Tất cả sân
 - `invoices` (vector<Invoice>): Tất cả hóa đơn
 - `currentUser` (Account): Tài khoản người dùng hiện tại đã đăng nhập
 
