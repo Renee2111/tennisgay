@@ -34,7 +34,7 @@
   AuthManager (Quản Lý Xác Thực - Độc Lập)
 
 ### Mô tả chi tiết các lớp
-####**Person**(Lớp Cơ Sở)
+#### **Person**(Lớp Cơ Sở)
 Lớp cơ sở cho tất cả người dùng của hệ thống.
 
 **Thuộc tính**
