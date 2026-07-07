@@ -10,7 +10,7 @@
 - **Quản lý khách hàng**: Thêm, sửa, xoá thông tin khách hàng.
 - **Quản lý nhân viên**: Quản lý nhân viên theo vị trí và lương.
 - **Quản lý sân**: Quản lý sân, giá và trạng thái có hay không.
-- **Chức năng tìm kiếm**: Tìm kiếm sân theo ID, khách hàng theo tên/ngày sinh, hoá đơn theo ID.
+- **Chức năng tìm kiếm**: Tìm kiếm sân theo ID, khách hàng theo cccd, hoá đơn theo ID.
 - **Thống kê**: Thống kê doanh thu, khách hàng đứng đầu, hoá đơn theo nhân viên.
 - **Lưu trữ dữ liệu**: Tất cả các tệp tự động lưu vào các tệp CSV trong thư mục data.
 
