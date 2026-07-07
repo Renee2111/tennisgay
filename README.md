@@ -129,9 +129,9 @@ Lớp quản lý trung tâm điều phối tất cả các hoạt động của 
 
 **Phương Thức Chính:**
 - `loadAll()`, `saveAll()`: Tải/lưu tất cả dữ liệu
-- `homeMenu()`: Menu đăng nhập/đăng ký
+- `loginMenu()`: Menu đăng nhập/đăng ký
 - `adminMenu()`, `staffMenu()`, `customerMenu()`: Các menu dựa trên vai trò
-- `employeeMenu()`, `roomMenu()`, `invoiceMenu()`: Các hàm menu quản lý
+- `employeeMenu()`, `yardMenu()`, `invoiceMenu()`: Các hàm menu quản lý
 - `searchMenu()`, `statsMenu()`: Các hàm tìm kiếm và thống kê
 - `runConsole()`: Vòng lặp bảng điều khiển chính
 
