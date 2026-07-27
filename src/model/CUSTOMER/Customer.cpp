@@ -33,3 +33,12 @@ std::string Customer::toCSV() const {
     oss << cccd << "," << name << "," << phone << "," << email << "," << birthdate << "," << address;
     return oss.str();
 }
+void Customer::fromCSV(const std::string &line){
+        std::stringstream ss(line);
+        getline(ss, cccd, ',');
+        getline(ss, name, ',');
+        getline(ss, phone, ',');
+        getline(ss, email, ',');
+        getline(ss, birthdate, ',');
+        getline(ss, address);
+}

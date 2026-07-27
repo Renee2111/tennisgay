@@ -23,6 +23,7 @@ public:
     void setSalary(double sal);
 
     std::string toCSV() const override;
+    void fromCSV(const std::string &line);
 };
 
 #endif

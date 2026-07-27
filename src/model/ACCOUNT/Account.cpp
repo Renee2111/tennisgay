@@ -39,3 +39,12 @@ std::string Account::toCSV() const {
         << cccd;
     return oss.str();
 }
+void Account::fromCSV(const std::string &line){
+        std::stringstream ss(line);
+        std::string temp;
+        getline(ss, username, ',');
+        getline(ss, password, ',');
+        getline(ss, temp, ',');
+        role = stoi(temp);
+        getline(ss, cccd);
+}

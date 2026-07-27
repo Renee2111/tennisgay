@@ -41,4 +41,14 @@ std::string Employee::toCSV() const {
         <<std::fixed<< std::setprecision(2) << salary;
     return oss.str();
 }
-
+void Employee::fromCSV(const std::string &line){
+        std::stringstream ss(line);
+        std::string temp;
+        getline(ss, cccd, ',');
+        getline(ss, name, ',');
+        getline(ss, phone, ',');
+        getline(ss, email, ',');
+        getline(ss, position, ',');
+        getline(ss, temp);
+        salary = std::stod(temp);
+}

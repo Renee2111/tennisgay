@@ -63,3 +63,15 @@ std::string Invoice::toCSV() const {
         << std::fixed << std::setprecision(2) << total;
     return oss.str();
 }
+void Invoice::fromCSV(const std::string &line){
+        std::stringstream ss(line);
+        std::string temp;
+        getline(ss, invoiceId, ',');
+        getline(ss, customerCccd, ',');
+        getline(ss, employeeCccd, ',');
+        getline(ss, yardId, ',');
+        getline(ss, dateFrom, ',');
+        getline(ss, dateTo, ',');
+        getline(ss, temp);
+        total = std::stod(temp);
+}

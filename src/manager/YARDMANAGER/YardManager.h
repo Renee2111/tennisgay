@@ -24,6 +24,7 @@ private:
 public:
     YardManager(const std::string &dir = "data/");
     ~YardManager() = default;
+    Yard* findYardById(const std::string &yardId);
 
     void loadAll();
     void saveAll() const;
@@ -37,6 +38,11 @@ public:
     void employeeMenu();
     void customerMenu();
     void dangkyEmployeeAccount(); // Admin cấp tài khoản cho nhân viên (Role = 1)
+    void changePassword();
+    void forgotPassword();
+    void viewCustomerInfo() const;
+    void viewCustomerInvoice() const;
+    std::string sinhInvoice() const; 
 
     // Quản lý khách hàng
     void customerManagerMenu();
@@ -44,6 +50,7 @@ public:
     void editCustomer();
     void deleteCustomer();
     void customerList() const;
+    
 
     // Quản lý nhân viên
     void employeeManagerMenu();
@@ -55,21 +62,24 @@ public:
     // Quản lý sân
     void yardManagerMenu();
     void addYard();
+    void bookYard();
+    void returnYard();
     void editYard();
     void deleteYard();
     void yardList() const;
 
-    // Chức năng tìm kiếm theo đúng tiêu chuẩn
+    //Tìm kiếm 
     void searchMenu() const;
-    void searchYard() const;       // Tìm sân theo ID
-    void searchCustomer() const;   // Tìm khách hàng theo CCCD
-    void searchInvoice() const;    // Tìm hóa đơn theo ID
+    void searchYard() const;      
+    void searchCustomer() const;  
+    void searchInvoice() const;    
 
-    // Chức năng thống kê
+    // Thống kê
     void statsMenu() const;
-    void statsRevenue() const;     // Thống kê doanh thu
-    void statsTopCustomer() const; // Tìm khách hàng đứng đầu chi tiêu
-    void statsEmployee() const;    // Thống kê hóa đơn theo nhân viên
+    void statsRevenue() const;    
+    void statsTopCustomer() const; 
+    void statsEmployee() const; 
+    void statsUsingYard() const;
+    void statsTopYard() const;  
 };
-
 #endif

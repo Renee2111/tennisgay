@@ -24,6 +24,8 @@ public:
     void setAvailable(bool avail);
 
     std::string toCSV() const;
+    void fromCSV(const std::string &line);
+    
 };
 
 #endif

@@ -30,6 +30,8 @@ public:
     void setCccd(const std::string &cccd);
 
     std::string toCSV() const;
+    void fromCSV(const std::string &line);
+    
 };
 
 #endif

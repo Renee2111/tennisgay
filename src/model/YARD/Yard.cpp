@@ -35,3 +35,13 @@ std::string Yard::toCSV() const {
         << (available ? "1" : "0");
     return oss.str();
 }
+void Yard::fromCSV(const std::string &line){
+        std::stringstream ss(line);
+        std::string temp;
+        getline(ss, yardId, ',');
+        getline(ss, yardType, ',');
+        getline(ss, temp, ',');
+        pricePerHour = std::stod(temp);
+        getline(ss, temp);
+        available = (temp == "1");
+}

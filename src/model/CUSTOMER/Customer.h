@@ -21,6 +21,6 @@ public:
     void setAddress(const std::string &addr);
 
     std::string toCSV() const override;
-    void fromCSV(const std::string &line) override;
+    void fromCSV(const std::string &line);
 };
 #endif

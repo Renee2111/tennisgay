@@ -39,8 +39,8 @@ class Invoice{
         void setDateTo(const std::string &date);
         void setTotal(double amount);
         std::string toCSV() const;
+        void fromCSV(const std::string &line);
 
 };
-
 #endif 
 
