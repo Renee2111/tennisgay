@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nhân Viên - SÂN TENNIS VIỆT QUỐC</title>
+    <link rel="stylesheet" href="EmployeeUI.css" />
+  </head>
+  <body>
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>STAFF TENNIS</h2>
+      </div>
+      <nav class="sidebar-menu">
+        <button class="nav-tab active" data-tab="tab-check-yard">
+          🎾 Lịch Sân & Đặt Trực Tiếp
+        </button>
+        <button class="nav-tab" data-tab="tab-invoice-mgnt">
+          🧾 Quản Lý Hóa Đơn
+        </button>
+        <button class="nav-tab" data-tab="tab-cust-lookup">
+          🔍 Tra Cứu Khách Hàng
+        </button>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="btn-logout" id="btn-logout">Đăng Xuất</button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-bar">
+        <div class="page-title">
+          <h2 id="current-tab-title">Lịch Sân & Đặt Trực Tiếp</h2>
+        </div>
+        <div class="user-profile">
+          <span>Nhân viên: <strong id="employee-name">Nhân Viên</strong></span>
+        </div>
+      </header>
+
+      <div class="content-container">
+        <section id="tab-check-yard" class="tab-content active">
+          <div class="card-box">
+            <h3>Trạng Thái Sân Hiện Tại</h3>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Mã Sân</th>
+                    <th>Loại Sân</th>
+                    <th>Giá / Giờ</th>
+                    <th>Trạng Thái</th>
+                    <th>Hành Động</th>
+                  </tr>
+                </thead>
+                <tbody id="emp-yard-table-body">
+                  <tr>
+                    <td colspan="5" style="text-align: center">
+                      Đang tải danh sách sân...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="tab-invoice-mgnt" class="tab-content">
+          <div class="card-box">
+            <h3>Danh Sách Hóa Đơn Thanh Toán</h3>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Mã Hóa Đơn</th>
+                    <th>CCCD Khách</th>
+                    <th>Mã Sân</th>
+                    <th>Tổng Tiền</th>
+                    <th>Thao Tác</th>
+                  </tr>
+                </thead>
+                <tbody id="emp-invoice-table-body">
+                  <tr>
+                    <td colspan="5" style="text-align: center">
+                      Đang tải danh sách hóa đơn...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="tab-cust-lookup" class="tab-content">
+          <div class="card-box">
+            <h3>Tra Cứu Khách Hàng</h3>
+            <div class="search-bar-group">
+              <input
+                type="text"
+                id="cust-search-input"
+                placeholder="Nhập SĐT hoặc CCCD..."
+              />
+              <button class="btn-primary" id="btn-search-cust">Tìm Kiếm</button>
+            </div>
+            <div id="cust-search-result" style="margin-top: 15px"></div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      const API_BASE = "http://localhost:8080/api";
+
+      document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".nav-tab").forEach((tab) => {
+          tab.addEventListener("click", () => {
+            const targetId = tab.getAttribute("data-tab");
+            const titleText = tab.textContent.replace(/^[^\w\s]+/, "").trim();
+            switchTab(targetId, titleText);
+          });
+        });
+
+        document.getElementById("btn-logout").addEventListener("click", () => {
+          localStorage.clear();
+          sessionStorage.clear();
+          window.location.href = "../LoginFrame/LoginFrame.html";
+        });
+
+        loadYardsForEmp();
+        loadInvoicesForEmp();
+
+        document
+          .getElementById("btn-search-cust")
+          .addEventListener("click", searchCustomer);
+      });
+
+      async function loadYardsForEmp() {
+        const tbody = document.getElementById("emp-yard-table-body");
+        try {
+          const res = await fetch(`${API_BASE}/yards`);
+          if (!res.ok) throw new Error("Lỗi tải sân");
+          const yards = await res.json();
+
+          tbody.innerHTML = "";
+          yards.forEach((y) => {
+            const price = y.pricePerHour || y.price || 0;
+            const formattedPrice = new Intl.NumberFormat("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            }).format(price);
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                        <td><strong>${y.yardId || y.id}</strong></td>
+                        <td>${y.yardType || y.type || "Sân Tiêu Chuẩn"}</td>
+                        <td>${formattedPrice}</td>
+                        <td>${y.available ? "<span style='color:green;'>Trống</span>" : "<span style='color:red;'>Đang Thuê</span>"}</td>
+                        <td><button class="btn-secondary btn-sm">${y.available ? "Đặt Sân" : "Trả Sân"}</button></td>
+                    `;
+            tbody.appendChild(tr);
+          });
+        } catch (e) {
+          tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:red;">Lỗi kết nối Server C++!</td></tr>`;
+        }
+      }
+
+      async function loadInvoicesForEmp() {
+        const tbody = document.getElementById("emp-invoice-table-body");
+        try {
+          const res = await fetch(`${API_BASE}/invoices`);
+          if (!res.ok) throw new Error("Lỗi tải hóa đơn");
+          const invoices = await res.json();
+
+          tbody.innerHTML = "";
+          invoices.forEach((inv) => {
+            const total = inv.total || inv.totalPrice || 0;
+            const formattedPrice = new Intl.NumberFormat("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            }).format(total);
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                        <td><strong>${inv.id || inv.invoiceId}</strong></td>
+                        <td>${inv.customerCccd || inv.cccd}</td>
+                        <td>${inv.yardId}</td>
+                        <td>${formattedPrice}</td>
+                        <td><button class="btn-secondary btn-sm">Xem Chi Tiết</button></td>
+                    `;
+            tbody.appendChild(tr);
+          });
+        } catch (e) {
+          tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:red;">Chưa có dữ liệu hóa đơn!</td></tr>`;
+        }
+      }
+
+      async function searchCustomer() {
+        const kw = document.getElementById("cust-search-input").value.trim();
+        const resDiv = document.getElementById("cust-search-result");
+        if (!kw) return;
+
+        try {
+          const res = await fetch(
+            `${API_BASE}/customers/search?keyword=${encodeURIComponent(kw)}`,
+          );
+          const data = await res.json();
+          if (data.length === 0) {
+            resDiv.innerHTML =
+              "<p style='color:red;'>Không tìm thấy khách hàng nào!</p>";
+          } else {
+            resDiv.innerHTML = `<p style='color:green;'>Tìm thấy ${data.length} khách hàng: <strong>${data[0].name || data[0].fullName}</strong> - SĐT: ${data[0].phone}</p>`;
+          }
+        } catch (e) {
+          resDiv.innerHTML = "<p style='color:red;'>Lỗi khi tìm kiếm!</p>";
+        }
+      }
+
+      function switchTab(targetId, titleText) {
+        document
+          .querySelectorAll(".nav-tab")
+          .forEach((t) => t.classList.remove("active"));
+        document
+          .querySelectorAll(".tab-content")
+          .forEach((c) => c.classList.remove("active"));
+
+        const activeContent = document.getElementById(targetId);
+        if (activeContent) activeContent.classList.add("active");
+
+        const matchedTab = document.querySelector(
+          `.nav-tab[data-tab="${targetId}"]`,
+        );
+        if (matchedTab) matchedTab.classList.add("active");
+
+        const titleHeader = document.getElementById("current-tab-title");
+        if (titleText && titleHeader) titleHeader.textContent = titleText;
+      }
+    </script>
+  </body>
+</html>
