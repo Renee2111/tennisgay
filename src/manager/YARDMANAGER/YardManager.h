@@ -1,85 +1,68 @@
 #ifndef YARDMANAGER_H
 #define YARDMANAGER_H
 
-#include <string>
 #include <vector>
+#include <string>
 
+// Cập nhật lại đường dẫn tới các Model nếu cần thiết
 #include "../../model/ACCOUNT/Account.h"
-#include "../../model/YARD/Yard.h"
-#include "../../model/INVOICE/Invoice.h"
 #include "../../model/CUSTOMER/Customer.h"
 #include "../../model/EMPLOYEE/Employee.h"
+#include "../../model/YARD/Yard.h"
+#include "../../model/INVOICE/Invoice.h"
 
 class YardManager {
 private:
     std::string dataDir;
+    std::vector<Account> accounts;
     std::vector<Customer> customers;
     std::vector<Employee> employees;
     std::vector<Yard> yards;
     std::vector<Invoice> invoices;
-    std::vector<Account> accounts;
-    
-    Account User;
 
 public:
-    YardManager(const std::string &dir = "data/");
-    ~YardManager() = default;
-    Yard* findYardById(const std::string &yardId);
+    // Constructor
+    YardManager(const std::string &dir);
 
+    // File Handling
     void loadAll();
-    void saveAll() const;
-    void runConsole();
+    void saveAll();
 
-    // Hệ thống xác thực và Menus điều hướng
-    void loginMenu();
-    void login();
-    void dangkyAccount(); // Khách hàng tự đăng ký (Role = 2)
-    void adminMenu();
-    void employeeMenu();
-    void customerMenu();
-    void dangkyEmployeeAccount(); // Admin cấp tài khoản cho nhân viên (Role = 1)
-    void changePassword();
-    void forgotPassword();
-    void viewCustomerInfo() const;
-    void viewCustomerInvoice() const;
-    std::string sinhInvoice() const; 
+    // Getters
+    std::vector<Account>& getAccounts();
+    std::vector<Customer>& getCustomers();
+    std::vector<Employee>& getEmployees();
+    std::vector<Yard>& getYards();
+    std::vector<Invoice>& getInvoices();
 
-    // Quản lý khách hàng
-    void customerManagerMenu();
-    void addCustomer();
-    void editCustomer();
-    void deleteCustomer();
-    void customerList() const;
-    
+    // ================= CRUD Khách hàng =================
+    bool addCustomer(const Customer &c);
+    bool editCustomer(const Customer &c);
+    bool deleteCustomer(const std::string& cccd);
+    Customer* findCustomer(const std::string& cccd);
 
-    // Quản lý nhân viên
-    void employeeManagerMenu();
-    void addEmployee();
-    void editEmployee();
-    void deleteEmployee();
-    void employeeList() const;
+    // ================= CRUD Nhân viên =================
+    bool addEmployee(const Employee &e);
+    bool editEmployee(const Employee &e);
+    bool deleteEmployee(const std::string &cccd);
+    Employee* findEmployee(const std::string &cccd);
 
-    // Quản lý sân
-    void yardManagerMenu();
-    void addYard();
-    void bookYard();
-    void returnYard();
-    void editYard();
-    void deleteYard();
-    void yardList() const;
+    // ================= CRUD Sân Tennis =================
+    bool addYard(const Yard &y);
+    bool editYard(const Yard &y);
+    bool deleteYard(const std::string &id);
+    Yard* findYardById(const std::string &id);
 
-    //Tìm kiếm 
-    void searchMenu() const;
-    void searchYard() const;      
-    void searchCustomer() const;  
-    void searchInvoice() const;    
+    // ================= Hóa đơn & Nghiệp vụ cho UI =================
+    bool addInvoice(const Invoice &i);
+    std::string sinhInvoice() const;
 
-    // Thống kê
-    void statsMenu() const;
-    void statsRevenue() const;    
-    void statsTopCustomer() const; 
-    void statsEmployee() const; 
-    void statsUsingYard() const;
-    void statsTopYard() const;  
+    // Các hàm tương tác với UI (Web/Mobile)
+    bool bookYardFromUI(const std::string &customerCccd, const std::string &employeeCccd, 
+                        const std::string &yardId, const std::string &fromDate, 
+                        const std::string &toDate, int hours, double &outTotal, std::string &outInvoiceId);
+                        
+    bool returnYardFromUI(const std::string &yardId);
 };
-#endif
+
+#endif // YARDMANAGER_H
