@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - Quản lý nhân viên</title>
+    <!-- Link file CSS -->
+    <link rel="stylesheet" href="AdMinUI.css" />
+    <!-- Font Awesome để dùng Icon -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="admin-container">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <i class="fa-solid fa-building"></i>
+          <span>Web Tuất</span>
+        </div>
+        <ul class="sidebar-menu">
+          <li>
+            <a href="Dashboard.html"
+              ><i class="fa-solid fa-chart-pie"></i> Tổng quan</a
+            >
+          </li>
+          <li class="active">
+            <a href="AdMinUI.html"
+              ><i class="fa-solid fa-users"></i> Quản lý nhân viên</a
+            >
+          </li>
+          <li>
+            <a href="Attendance.html"
+              ><i class="fa-solid fa-calendar-check"></i> Chấm công</a
+            >
+          </li>
+          <li>
+            <a href="Payroll.html"
+              ><i class="fa-solid fa-file-invoice-dollar"></i> Lương thưởng</a
+            >
+          </li>
+          <li>
+            <a href="Settings.html"><i class="fa-solid fa-gear"></i> Cài đặt</a>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="main-content">
+        <!-- HEADER -->
+        <header class="top-header">
+          <div class="header-left">
+            <h2>Danh sách nhân viên</h2>
+          </div>
+          <div class="header-right">
+            <div class="search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" placeholder="Tìm kiếm..." />
+            </div>
+            <div class="user-profile">
+              <!-- Để trống chờ Backend -->
+              <img
+                src=""
+                alt=""
+                style="
+                  background-color: #e2e8f0;
+                  width: 40px;
+                  height: 40px;
+                  border-radius: 50%;
+                "
+              />
+              <span id="headerAdminName"></span>
+            </div>
+          </div>
+        </header>
+
+        <!-- NỘI DUNG CHÍNH (BẢNG NHÂN VIÊN) -->
+        <section class="content-area">
+          <div class="card">
+            <div class="card-header">
+              <h3>Nhân sự hiện tại</h3>
+              <!-- NÚT MỞ MODAL THÊM NHÂN VIÊN -->
+              <button id="openAddEmployeeModalBtn" class="btn-primary">
+                <i class="fa-solid fa-plus"></i> Thêm nhân viên
+              </button>
+            </div>
+            <div class="card-body">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Họ và Tên</th>
+                    <th>Email</th>
+                    <th>Phân quyền</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                  </tr>
+                </thead>
+                <tbody id="employeeTableBody">
+                  <!-- Trắng: Đợi render vòng lặp dữ liệu từ Backend -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- MODAL CẤP TÀI KHOẢN NHÂN VIÊN -->
+    <div id="addEmployeeModal" class="modal-overlay hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Cấp tài khoản nhân viên mới</h3>
+          <span class="close-btn" id="closeAddEmployeeModalBtn">&times;</span>
+        </div>
+
+        <div class="modal-body">
+          <form id="addEmployeeForm">
+            <div class="form-group">
+              <label for="empName">Họ và Tên</label>
+              <input
+                type="text"
+                id="empName"
+                placeholder="Nhập họ và tên..."
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="empEmail">Email / Tài khoản đăng nhập</label>
+              <input
+                type="email"
+                id="empEmail"
+                placeholder="ví dụ: nhanvien@congty.com"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="empPassword">Mật khẩu khởi tạo</label>
+              <input
+                type="password"
+                id="empPassword"
+                placeholder="Nhập mật khẩu..."
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="empRole">Phân quyền</label>
+              <select id="empRole">
+                <option value="staff">Nhân viên (Staff)</option>
+                <option value="manager">Quản lý (Manager)</option>
+              </select>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="cancelBtn">
+            Hủy
+          </button>
+          <button type="submit" form="addEmployeeForm" class="btn-primary">
+            Tạo tài khoản
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- JAVASCRIPT XỬ LÝ MODAL -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const modal = document.getElementById("addEmployeeModal");
+        const openBtn = document.getElementById("openAddEmployeeModalBtn");
+        const closeBtn = document.getElementById("closeAddEmployeeModalBtn");
+        const cancelBtn = document.getElementById("cancelBtn");
+        const form = document.getElementById("addEmployeeForm");
+
+        const openModal = () => modal.classList.remove("hidden");
+        const closeModal = () => {
+          modal.classList.add("hidden");
+          form.reset(); // Xóa trắng form khi đóng
+        };
+
+        openBtn.addEventListener("click", openModal);
+        closeBtn.addEventListener("click", closeModal);
+        cancelBtn.addEventListener("click", closeModal);
+
+        // Bấm ra ngoài form thì đóng
+        window.addEventListener("click", (e) => {
+          if (e.target === modal) closeModal();
+        });
+
+        // Submit form
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          alert(
+            "Đã cấp tài khoản thành công cho: " +
+              document.getElementById("empName").value,
+          );
+          closeModal();
+        });
+      });
+    </script>
+  </body>
+</html>

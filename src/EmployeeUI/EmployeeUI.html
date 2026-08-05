@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TENNIS EMPLOYEE - Giao Diện Nhân Viên</title>
+    <!-- Thư viện icon FontAwesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Nhúng file CSS -->
+    <link rel="stylesheet" href="EmployeeUI.css" />
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div>
+        <div class="sidebar-header">TENNIS EMPLOYEE</div>
+        <ul class="sidebar-menu">
+          <li class="active">
+            <a href="#" data-target="tab-yard">
+              <i class="fa-solid fa-table-tennis-paddle-ball"></i> Quản Lý Sân
+            </a>
+          </li>
+          <li>
+            <a href="#" data-target="tab-customer">
+              <i class="fa-solid fa-users"></i> Khách Hàng
+            </a>
+          </li>
+          <li>
+            <a href="#" data-target="tab-search">
+              <i class="fa-solid fa-magnifying-glass"></i> Tìm Kiếm
+            </a>
+          </li>
+          <li>
+            <a href="#" data-target="tab-support">
+              <i class="fa-solid fa-life-ring"></i> Hỗ Trợ (Quên MK)
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="sidebar-footer">
+        <button class="btn-logout">Đăng Xuất</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-title">
+          <i id="header-icon" class="fa-solid fa-table-tennis-paddle-ball"></i>
+          <span id="header-text">Quản Lý Sân</span>
+        </div>
+        <div class="header-user">
+          Xin chào Nhân Viên, <span id="headerEmployeeName"></span>
+        </div>
+      </header>
+
+      <!-- Content Area -->
+      <div class="content-wrapper">
+        <!-- ================= TAB 1: QUẢN LÝ SÂN (ĐẶT / TRẢ) ================= -->
+        <div id="tab-yard" class="tab-content active">
+          <div class="card">
+            <div class="action-bar">
+              <h3>Danh Sách Sân Tennis</h3>
+              <div>
+                <button
+                  class="btn-primary modal-trigger"
+                  data-modal="modalBookYard"
+                >
+                  <i class="fa-solid fa-plus"></i> Đặt Sân
+                </button>
+                <button
+                  class="btn-danger modal-trigger"
+                  data-modal="modalReturnYard"
+                  style="margin-left: 10px"
+                >
+                  <i class="fa-solid fa-rotate-left"></i> Trả Sân
+                </button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Mã Sân</th>
+                    <th>Loại Sân</th>
+                    <th>Giá (VNĐ/Giờ)</th>
+                    <th>Trạng Thái</th>
+                  </tr>
+                </thead>
+                <tbody id="yardTableBody">
+                  <!-- Dữ liệu API đổ vào đây -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= TAB 2: KHÁCH HÀNG ================= -->
+        <div id="tab-customer" class="tab-content">
+          <div class="card">
+            <div class="action-bar">
+              <h3>Danh Sách Khách Hàng</h3>
+              <button
+                class="btn-primary modal-trigger"
+                data-modal="modalAddCustomer"
+              >
+                <i class="fa-solid fa-user-plus"></i> Thêm Khách Hàng
+              </button>
+            </div>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>CCCD</th>
+                    <th>Họ Tên</th>
+                    <th>SĐT</th>
+                    <th>Email</th>
+                    <th>Ngày Sinh</th>
+                    <th>Địa Chỉ</th>
+                  </tr>
+                </thead>
+                <tbody id="customerTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= TAB 3: TÌM KIẾM ================= -->
+        <div id="tab-search" class="tab-content">
+          <div class="card">
+            <h3>Công Cụ Tìm Kiếm Nhanh</h3>
+            <div style="display: flex; gap: 15px; margin-bottom: 20px">
+              <select id="searchType" class="form-control" style="width: 250px">
+                <option value="yard">Tìm Sân (Nhập Mã)</option>
+                <option value="customer">Tìm Khách Hàng (Nhập CCCD)</option>
+                <option value="invoice">Tìm Hóa Đơn (Nhập Mã HĐ)</option>
+              </select>
+              <input
+                type="text"
+                id="searchInput"
+                class="search-box"
+                placeholder="Nhập thông tin cần tìm..."
+              />
+              <button class="btn-primary">
+                <i class="fa-solid fa-magnifying-glass"></i> Tìm
+              </button>
+            </div>
+            <div
+              id="searchResults"
+              style="
+                padding: 15px;
+                background: #f8f9fa;
+                border: 1px solid #eff2f7;
+                border-radius: 5px;
+                min-height: 100px;
+              "
+            >
+              <i style="color: #6c757d"
+                >Kết quả tìm kiếm sẽ hiển thị tại đây...</i
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= TAB 4: HỖ TRỢ (QUÊN MẬT KHẨU) ================= -->
+        <div id="tab-support" class="tab-content">
+          <div class="card" style="max-width: 500px; margin: 0 auto">
+            <h3>Cấp Lại Mật Khẩu Khách Hàng</h3>
+            <form id="forgotPasswordForm">
+              <div class="form-group">
+                <label>Tên Đăng Nhập (Khách Hàng):</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  required
+                  placeholder="Nhập tên đăng nhập"
+                />
+              </div>
+              <div class="form-group">
+                <label>CCCD Khách Hàng:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  required
+                  placeholder="Nhập số CCCD"
+                />
+              </div>
+              <div class="form-group">
+                <label>Mật Khẩu Mới:</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  required
+                  placeholder="Nhập mật khẩu mới"
+                />
+              </div>
+              <button type="submit" class="btn-primary" style="width: 100%">
+                Cấp Lại Mật Khẩu
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ================= CÁC MODAL (POPUP) ================= -->
+
+    <!-- Modal 1: Đặt Sân -->
+    <div id="modalBookYard" class="modal">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3>Tạo Hóa Đơn Đặt Sân</h3>
+        <form>
+          <div class="form-group">
+            <label>CCCD Khách Hàng:</label>
+            <input
+              type="text"
+              class="form-control"
+              required
+              placeholder="Nhập CCCD khách hàng"
+            />
+          </div>
+          <div class="form-group">
+            <label>Mã Sân:</label>
+            <input
+              type="text"
+              class="form-control"
+              required
+              placeholder="Ví dụ: SAN01"
+            />
+          </div>
+          <div class="form-group">
+            <label>Ngày Đặt Sân:</label>
+            <input type="date" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label>Giờ Bắt Đầu (Từ giờ):</label>
+            <input type="time" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label>Giờ Kết Thúc (Đến giờ):</label>
+            <input type="time" class="form-control" required />
+          </div>
+          <button type="submit" class="btn-primary" style="width: 100%">
+            Xác Nhận Đặt Sân
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal 2: Trả Sân -->
+    <div id="modalReturnYard" class="modal">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3>Trả Sân</h3>
+        <form>
+          <div class="form-group">
+            <label>Nhập Mã Sân Cần Trả:</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Ví dụ: SAN01"
+              required
+            />
+          </div>
+          <button type="submit" class="btn-danger" style="width: 100%">
+            Xác Nhận Trả Sân
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal 3: Thêm Khách Hàng -->
+    <div id="modalAddCustomer" class="modal">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3>Thêm Hồ Sơ Khách Hàng Mới</h3>
+        <form>
+          <div class="form-group">
+            <label>CCCD:</label>
+            <input type="text" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label>Họ và Tên:</label>
+            <input type="text" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label>Số Điện Thoại:</label>
+            <input type="tel" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label>Email:</label>
+            <input type="email" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label>Ngày Sinh:</label>
+            <input type="date" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label>Địa Chỉ:</label>
+            <input type="text" class="form-control" required />
+          </div>
+
+          <!-- BỔ SUNG: Tên đăng nhập, Mật khẩu, Xác nhận mật khẩu -->
+          <div class="form-group">
+            <label>Tên Đăng Nhập:</label>
+            <input type="text" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label>Mật Khẩu:</label>
+            <input type="password" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label>Xác Nhận Mật Khẩu:</label>
+            <input type="password" class="form-control" required />
+          </div>
+
+          <button type="submit" class="btn-primary" style="width: 100%">
+            Lưu Khách Hàng
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ================= JAVASCRIPT ================= -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // --- 1. Xử lý Tab menu ---
+        const menuLinks = document.querySelectorAll(".sidebar-menu a");
+        const tabContents = document.querySelectorAll(".tab-content");
+        const headerIcon = document.getElementById("header-icon");
+        const headerText = document.getElementById("header-text");
+
+        menuLinks.forEach((link) => {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            document
+              .querySelectorAll(".sidebar-menu li")
+              .forEach((li) => li.classList.remove("active"));
+            this.parentElement.classList.add("active");
+
+            const targetId = this.getAttribute("data-target");
+            tabContents.forEach((tab) => {
+              tab.classList.toggle("active", tab.id === targetId);
+            });
+
+            headerText.textContent = this.textContent.trim();
+            headerIcon.className = this.querySelector("i").className;
+          });
+        });
+
+        // --- 2. Xử lý Modal (Popup) ---
+        const modalTriggers = document.querySelectorAll(".modal-trigger");
+        const closeButtons = document.querySelectorAll(".close-modal");
+
+        // Mở modal tương ứng
+        modalTriggers.forEach((btn) => {
+          btn.addEventListener("click", function () {
+            const modalId = this.getAttribute("data-modal");
+            document.getElementById(modalId).classList.add("show");
+          });
+        });
+
+        // Đóng modal khi bấm X
+        closeButtons.forEach((btn) => {
+          btn.addEventListener("click", function () {
+            this.closest(".modal").classList.remove("show");
+          });
+        });
+
+        // Đóng modal khi bấm ra vùng đen bên ngoài
+        window.addEventListener("click", function (event) {
+          if (event.target.classList.contains("modal")) {
+            event.target.classList.remove("show");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

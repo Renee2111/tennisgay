@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lương thưởng - Admin Dashboard</title>
+    <link rel="stylesheet" href="AdMinUI.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="admin-container">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <i class="fa-solid fa-building"></i>
+          <span>CôngTy UI</span>
+        </div>
+        <ul class="sidebar-menu">
+          <li>
+            <a href="Dashboard.html"
+              ><i class="fa-solid fa-chart-pie"></i> Tổng quan</a
+            >
+          </li>
+          <li>
+            <a href="AdMinUI.html"
+              ><i class="fa-solid fa-users"></i> Quản lý nhân viên</a
+            >
+          </li>
+          <li>
+            <a href="Attendance.html"
+              ><i class="fa-solid fa-calendar-check"></i> Chấm công</a
+            >
+          </li>
+          <li class="active">
+            <a href="Payroll.html"
+              ><i class="fa-solid fa-file-invoice-dollar"></i> Lương thưởng</a
+            >
+          </li>
+          <li>
+            <a href="Settings.html"><i class="fa-solid fa-gear"></i> Cài đặt</a>
+          </li>
+        </ul>
+      </aside>
+
+      <main class="main-content">
+        <!-- HEADER -->
+        <header class="top-header">
+          <div class="header-left">
+            <h2>Quản lý lương thưởng</h2>
+          </div>
+          <div class="header-right">
+            <div class="search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" placeholder="Tìm kiếm..." />
+            </div>
+            <div class="user-profile">
+              <img src="" alt="" style="background-color: #e2e8f0" />
+              <span id="headerAdminName"></span>
+              <!-- Đợi backend -->
+            </div>
+          </div>
+        </header>
+
+        <section class="content-area">
+          <div class="card">
+            <div class="card-header">
+              <h3>Bảng lương tháng</h3>
+            </div>
+            <div class="card-body">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Mã NV</th>
+                    <th>Họ và Tên</th>
+                    <th>Lương cơ bản</th>
+                    <th>Phụ cấp & Thưởng</th>
+                    <th>Khấu trừ</th>
+                    <th>Thực lãnh</th>
+                  </tr>
+                </thead>
+                <tbody id="payrollTableBody">
+                  <!-- Trắng: Đợi render vòng lặp dữ liệu từ Backend -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

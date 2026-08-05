@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TENNIS CUSTOMER - Trang Khách Hàng</title>
+    <!-- Thư viện icon FontAwesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Link tới file CSS bên ngoài -->
+    <link rel="stylesheet" href="CustomerUI.css" />
+    <style>
+      /* Ẩn/hiện các Tab */
+      .tab-content {
+        display: none;
+      }
+      .tab-content.active {
+        display: block;
+      }
+
+      /* CSS Tùy chỉnh cho Nút đổi mật khẩu ở Header */
+      .btn-header-action {
+        background-color: transparent;
+        border: 1px solid #556ee6;
+        color: #556ee6;
+        padding: 5px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 13px;
+        transition: 0.3s;
+      }
+      .btn-header-action:hover {
+        background-color: #556ee6;
+        color: #fff;
+      }
+
+      /* ================= CSS CHO MODAL (POPUP) ĐỔI MẬT KHẨU ================= */
+      .modal {
+        display: none; /* Mặc định ẩn */
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Nền mờ tối */
+        align-items: center;
+        justify-content: center;
+      }
+      .modal.show {
+        display: flex; /* Hiển thị khi có class show */
+      }
+      .modal-content {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        width: 100%;
+        max-width: 450px;
+        position: relative;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+      .modal-content h3 {
+        margin-bottom: 20px;
+        color: #313a46;
+        border-bottom: 1px solid #eff2f7;
+        padding-bottom: 10px;
+      }
+      .close-modal {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 24px;
+        font-weight: bold;
+        color: #aaa;
+        cursor: pointer;
+      }
+      .close-modal:hover {
+        color: #f35353;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div>
+        <div class="sidebar-header">TENNIS CUSTOMER</div>
+        <ul class="sidebar-menu">
+          <li>
+            <a href="#" data-target="tab-book">
+              <i class="fa-solid fa-table-tennis-paddle-ball"></i> Đặt Sân
+              Tennis
+            </a>
+          </li>
+          <li>
+            <a href="#" data-target="tab-history">
+              <i class="fa-solid fa-file-invoice-dollar"></i> Lịch Sử Của Tôi
+            </a>
+          </li>
+          <li class="active">
+            <a href="#" data-target="tab-profile">
+              <i class="fa-solid fa-user"></i> Thông Tin Cá Nhân
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="sidebar-footer">
+        <button class="btn-logout">Đăng Xuất</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-title">
+          <i id="header-icon" class="fa-solid fa-user"></i>
+          <span id="header-text">Thông Tin Cá Nhân</span>
+        </div>
+        <div
+          class="header-user"
+          style="display: flex; align-items: center; gap: 15px"
+        >
+          <span>Xin chào, <strong id="headerUsername"></strong></span>
+          <!-- Nút Đổi mật khẩu đưa lên Header -->
+          <button id="btnOpenPasswordModal" class="btn-header-action">
+            <i class="fa-solid fa-key"></i> Đổi Mật Khẩu
+          </button>
+        </div>
+      </header>
+
+      <!-- Content Area -->
+      <div class="content-wrapper">
+        <!-- ================= TAB 1: ĐẶT SÂN TENNIS ================= -->
+        <div id="tab-book" class="tab-content">
+          <div class="card">
+            <div class="action-bar">
+              <h3>Danh Sách Sân Tennis</h3>
+              <div>
+                <input
+                  type="date"
+                  class="search-box"
+                  style="width: auto; margin-right: 10px"
+                  id="searchDate"
+                />
+                <input
+                  type="text"
+                  class="search-box"
+                  placeholder="Tìm tên sân..."
+                />
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Mã Sân</th>
+                    <th>Tên Sân</th>
+                    <th>Đơn Giá (VNĐ/Giờ)</th>
+                    <th>Trạng Thái</th>
+                    <th>Thao Tác</th>
+                  </tr>
+                </thead>
+                <tbody id="availableYardsTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= TAB 2: HÓA ĐƠN & LỊCH SỬ ================= -->
+        <div id="tab-history" class="tab-content">
+          <div class="card">
+            <div class="action-bar">
+              <h3>Lịch Sử Đặt Sân Đã Hoàn Thành</h3>
+              <input
+                type="text"
+                class="search-box"
+                placeholder="Tìm theo mã hóa đơn..."
+              />
+            </div>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Mã HĐ</th>
+                    <th>Mã Sân</th>
+                    <th>Thời Gian Bắt Đầu</th>
+                    <th>Thời Gian Kết Thúc</th>
+                    <th>Tổng Tiền (VNĐ)</th>
+                    <th>Thao Tác</th>
+                  </tr>
+                </thead>
+                <tbody id="customerHistoryTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= TAB 3: THÔNG TIN CÁ NHÂN ================= -->
+        <div id="tab-profile" class="tab-content active">
+          <!-- Card: Thông tin tài khoản -->
+          <div class="card">
+            <h3>Thông Tin Tài Khoản</h3>
+            <form id="profileForm">
+              <div class="form-group">
+                <label for="username">Tên Đăng Nhập / CCCD:</label>
+                <input
+                  type="text"
+                  id="username"
+                  class="form-control"
+                  value=""
+                  disabled
+                />
+              </div>
+              <div class="form-group">
+                <label for="fullname">Họ và Tên:</label>
+                <input
+                  type="text"
+                  id="fullname"
+                  class="form-control"
+                  placeholder="Nhập tên của bạn"
+                />
+              </div>
+
+              <!-- Thêm trường Ngày Sinh -->
+              <div class="form-group">
+                <label for="dob">Ngày Sinh:</label>
+                <input type="date" id="dob" class="form-control" />
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Số Điện Thoại:</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  class="form-control"
+                  placeholder="Nhập SĐT"
+                />
+              </div>
+              <div class="form-group">
+                <label for="email">Email:</label>
+                <input
+                  type="email"
+                  id="email"
+                  class="form-control"
+                  placeholder="Nhập Email"
+                />
+              </div>
+
+              <!-- Thêm trường Địa Chỉ -->
+              <div class="form-group">
+                <label for="address">Địa Chỉ:</label>
+                <input
+                  type="text"
+                  id="address"
+                  class="form-control"
+                  placeholder="Nhập địa chỉ của bạn"
+                />
+              </div>
+
+              <button type="submit" class="btn-primary">
+                Cập Nhật Thông Tin
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ================= MODAL (POPUP) ĐỔI MẬT KHẨU ================= -->
+    <div id="passwordModal" class="modal">
+      <div class="modal-content">
+        <span class="close-modal" id="closePasswordModal">&times;</span>
+        <h3>Đổi Mật Khẩu</h3>
+        <form id="passwordForm">
+          <div class="form-group">
+            <label for="currentPassword">Mật Khẩu Hiện Tại (*):</label>
+            <input
+              type="password"
+              id="currentPassword"
+              class="form-control"
+              placeholder="Nhập mật khẩu cũ"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="newPassword">Mật Khẩu Mới (*):</label>
+            <input
+              type="password"
+              id="newPassword"
+              class="form-control"
+              placeholder="Nhập mật khẩu mới"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword">Xác Nhận Mật Khẩu Mới (*):</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              class="form-control"
+              placeholder="Nhập lại mật khẩu mới"
+              required
+            />
+          </div>
+          <button type="submit" class="btn-primary" style="width: 100%">
+            Xác Nhận Đổi Mật Khẩu
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ================= JAVASCRIPT ================= -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // ---- 1. XỬ LÝ CHUYỂN TAB ----
+        const menuLinks = document.querySelectorAll(".sidebar-menu a");
+        const tabContents = document.querySelectorAll(".tab-content");
+        const headerIcon = document.getElementById("header-icon");
+        const headerText = document.getElementById("header-text");
+
+        menuLinks.forEach((link) => {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            document
+              .querySelectorAll(".sidebar-menu li")
+              .forEach((li) => li.classList.remove("active"));
+            this.parentElement.classList.add("active");
+            const targetId = this.getAttribute("data-target");
+
+            tabContents.forEach((tab) => {
+              if (tab.id === targetId) {
+                tab.classList.add("active");
+              } else {
+                tab.classList.remove("active");
+              }
+            });
+            headerText.textContent = this.textContent.trim();
+            headerIcon.className = this.querySelector("i").className;
+          });
+        });
+
+        // ---- 2. XỬ LÝ ĐÓNG/MỞ POPUP ĐỔI MẬT KHẨU ----
+        const modal = document.getElementById("passwordModal");
+        const btnOpenModal = document.getElementById("btnOpenPasswordModal");
+        const btnCloseModal = document.getElementById("closePasswordModal");
+
+        btnOpenModal.addEventListener("click", function () {
+          modal.classList.add("show");
+        });
+
+        btnCloseModal.addEventListener("click", function () {
+          modal.classList.remove("show");
+        });
+
+        window.addEventListener("click", function (event) {
+          if (event.target == modal) {
+            modal.classList.remove("show");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
