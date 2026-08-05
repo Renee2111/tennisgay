@@ -3,412 +3,364 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Khách Hàng - SÂN TENNIS VIỆT QUỐC</title>
+    <title>TENNIS CUSTOMER - Trang Khách Hàng</title>
+    <!-- Thư viện icon FontAwesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Link tới file CSS bên ngoài -->
     <link rel="stylesheet" href="CustomerUI.css" />
     <style>
-      .badge {
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: 12px;
-        font-weight: 600;
-        display: inline-block;
-      }
-      .badge-success {
-        background-color: #dcfce7;
-        color: #15803d;
-      }
-      .badge-danger {
-        background-color: #fee2e2;
-        color: #b91c1c;
-      }
-      .btn-book {
-        background-color: #10b981;
-        color: white;
-        border: none;
-        padding: 6px 12px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-weight: 600;
-        font-size: 13px;
-      }
-      .btn-prebook {
-        background-color: #f59e0b;
-        color: white;
-        border: none;
-        padding: 6px 12px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-weight: 600;
-        font-size: 13px;
-      }
-      .btn-cancel {
-        background-color: #ef4444;
-        color: white;
-        border: none;
-        padding: 6px 12px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-weight: 600;
-        font-size: 13px;
-      }
-      .btn-disabled {
-        background-color: #cbd5e1;
-        color: #64748b;
-        border: none;
-        padding: 6px 12px;
-        border-radius: 6px;
-        font-weight: 600;
-        font-size: 13px;
-        cursor: not-allowed;
-      }
-      .modal {
+      /* Ẩn/hiện các Tab */
+      .tab-content {
         display: none;
+      }
+      .tab-content.active {
+        display: block;
+      }
+
+      /* CSS Tùy chỉnh cho Nút đổi mật khẩu ở Header */
+      .btn-header-action {
+        background-color: transparent;
+        border: 1px solid #556ee6;
+        color: #556ee6;
+        padding: 5px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 13px;
+        transition: 0.3s;
+      }
+      .btn-header-action:hover {
+        background-color: #556ee6;
+        color: #fff;
+      }
+
+      /* ================= CSS CHO MODAL (POPUP) ĐỔI MẬT KHẨU ================= */
+      .modal {
+        display: none; /* Mặc định ẩn */
         position: fixed;
-        z-index: 1000;
+        z-index: 9999;
         left: 0;
         top: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: rgba(0, 0, 0, 0.5); /* Nền mờ tối */
         align-items: center;
         justify-content: center;
       }
-      .modal.active {
-        display: flex;
+      .modal.show {
+        display: flex; /* Hiển thị khi có class show */
       }
       .modal-content {
-        background-color: white;
-        padding: 24px;
+        background-color: #fff;
+        padding: 30px;
         border-radius: 8px;
-        width: 420px;
-        max-width: 90%;
+        width: 100%;
+        max-width: 450px;
+        position: relative;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
       }
-      .modal-actions {
-        display: flex;
-        justify-content: flex-end;
-        gap: 10px;
-        margin-top: 20px;
+      .modal-content h3 {
+        margin-bottom: 20px;
+        color: #313a46;
+        border-bottom: 1px solid #eff2f7;
+        padding-bottom: 10px;
+      }
+      .close-modal {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 24px;
+        font-weight: bold;
+        color: #aaa;
+        cursor: pointer;
+      }
+      .close-modal:hover {
+        color: #f35353;
       }
     </style>
   </head>
   <body>
+    <!-- Sidebar -->
     <aside class="sidebar">
-      <div class="sidebar-header">
-        <h2>TENNIS CLIENT</h2>
+      <div>
+        <div class="sidebar-header">TENNIS CUSTOMER</div>
+        <ul class="sidebar-menu">
+          <li>
+            <a href="#" data-target="tab-book">
+              <i class="fa-solid fa-table-tennis-paddle-ball"></i> Đặt Sân
+              Tennis
+            </a>
+          </li>
+          <li>
+            <a href="#" data-target="tab-history">
+              <i class="fa-solid fa-file-invoice-dollar"></i> Lịch Sử Của Tôi
+            </a>
+          </li>
+          <li class="active">
+            <a href="#" data-target="tab-profile">
+              <i class="fa-solid fa-user"></i> Thông Tin Cá Nhân
+            </a>
+          </li>
+        </ul>
       </div>
-      <nav class="sidebar-menu">
-        <button class="nav-tab active" data-tab="tab-book-yard">
-          🎾 Đặt Sân Tennis
-        </button>
-        <button class="nav-tab" data-tab="tab-my-history">
-          📜 Lịch Sử Đặt Sân
-        </button>
-        <button class="nav-tab" data-tab="tab-my-profile">
-          👤 Thông Tin Cá Nhân
-        </button>
-      </nav>
       <div class="sidebar-footer">
-        <button class="btn-logout" id="btn-logout">Đăng Xuất</button>
+        <button class="btn-logout">Đăng Xuất</button>
       </div>
     </aside>
 
+    <!-- Main Content -->
     <main class="main-content">
-      <header class="top-bar">
-        <div class="page-title">
-          <h2 id="current-tab-title">Đặt Sân Tennis</h2>
+      <!-- Header -->
+      <header class="header">
+        <div class="header-title">
+          <i id="header-icon" class="fa-solid fa-user"></i>
+          <span id="header-text">Thông Tin Cá Nhân</span>
         </div>
-        <div class="user-profile">
-          <span>Xin chào, <strong id="customer-name">Khách Hàng</strong></span>
+        <div
+          class="header-user"
+          style="display: flex; align-items: center; gap: 15px"
+        >
+          <span>Xin chào, <strong id="headerUsername"></strong></span>
+          <!-- Nút Đổi mật khẩu đưa lên Header -->
+          <button id="btnOpenPasswordModal" class="btn-header-action">
+            <i class="fa-solid fa-key"></i> Đổi Mật Khẩu
+          </button>
         </div>
       </header>
 
-      <div class="content-container">
-        <section id="tab-book-yard" class="tab-content active">
-          <div class="card-box">
-            <h3>Danh Sách Sân Tennis trong Ngày</h3>
-            <div class="table-container">
-              <table>
+      <!-- Content Area -->
+      <div class="content-wrapper">
+        <!-- ================= TAB 1: ĐẶT SÂN TENNIS ================= -->
+        <div id="tab-book" class="tab-content">
+          <div class="card">
+            <div class="action-bar">
+              <h3>Danh Sách Sân Tennis</h3>
+              <div>
+                <input
+                  type="date"
+                  class="search-box"
+                  style="width: auto; margin-right: 10px"
+                  id="searchDate"
+                />
+                <input
+                  type="text"
+                  class="search-box"
+                  placeholder="Tìm tên sân..."
+                />
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table">
                 <thead>
                   <tr>
                     <th>Mã Sân</th>
-                    <th>Loại Sân</th>
-                    <th>Giá / Giờ</th>
+                    <th>Tên Sân</th>
+                    <th>Đơn Giá (VNĐ/Giờ)</th>
                     <th>Trạng Thái</th>
-                    <th>Hành Động</th>
+                    <th>Thao Tác</th>
                   </tr>
                 </thead>
-                <tbody id="cust-yard-table-body">
-                  <tr>
-                    <td colspan="5" style="text-align: center">
-                      Đang tải danh sách sân từ Backend...
-                    </td>
-                  </tr>
-                </tbody>
+                <tbody id="availableYardsTableBody"></tbody>
               </table>
             </div>
           </div>
-        </section>
+        </div>
 
-        <section id="tab-my-history" class="tab-content">
-          <div class="card-box">
-            <h3>Lịch Sử Đặt Sân Của Bạn</h3>
-            <div class="table-container">
-              <table>
+        <!-- ================= TAB 2: HÓA ĐƠN & LỊCH SỬ ================= -->
+        <div id="tab-history" class="tab-content">
+          <div class="card">
+            <div class="action-bar">
+              <h3>Lịch Sử Đặt Sân Đã Hoàn Thành</h3>
+              <input
+                type="text"
+                class="search-box"
+                placeholder="Tìm theo mã hóa đơn..."
+              />
+            </div>
+            <div class="table-responsive">
+              <table class="table">
                 <thead>
                   <tr>
-                    <th>Mã Hóa Đơn</th>
+                    <th>Mã HĐ</th>
                     <th>Mã Sân</th>
-                    <th>Ngày Bắt Đầu</th>
-                    <th>Ngày Kết Thúc</th>
-                    <th>Tổng Tiền</th>
-                    <th>Trạng Thái</th>
+                    <th>Thời Gian Bắt Đầu</th>
+                    <th>Thời Gian Kết Thúc</th>
+                    <th>Tổng Tiền (VNĐ)</th>
+                    <th>Thao Tác</th>
                   </tr>
                 </thead>
-                <tbody id="cust-history-table-body">
-                  <tr>
-                    <td colspan="6" style="text-align: center">
-                      Đang tải lịch sử...
-                    </td>
-                  </tr>
-                </tbody>
+                <tbody id="customerHistoryTableBody"></tbody>
               </table>
             </div>
           </div>
-        </section>
+        </div>
 
-        <section id="tab-my-profile" class="tab-content">
-          <div class="card-box form-card">
+        <!-- ================= TAB 3: THÔNG TIN CÁ NHÂN ================= -->
+        <div id="tab-profile" class="tab-content active">
+          <!-- Card: Thông tin tài khoản -->
+          <div class="card">
             <h3>Thông Tin Tài Khoản</h3>
-            <form id="form-cust-profile">
+            <form id="profileForm">
               <div class="form-group">
-                <label>Số CCCD:</label
-                ><input type="text" id="prof-cccd" readonly />
+                <label for="username">Tên Đăng Nhập / CCCD:</label>
+                <input
+                  type="text"
+                  id="username"
+                  class="form-control"
+                  value=""
+                  disabled
+                />
               </div>
               <div class="form-group">
-                <label>Họ và Tên:</label
-                ><input type="text" id="prof-fullname" />
+                <label for="fullname">Họ và Tên:</label>
+                <input
+                  type="text"
+                  id="fullname"
+                  class="form-control"
+                  placeholder="Nhập tên của bạn"
+                />
+              </div>
+
+              <!-- Thêm trường Ngày Sinh -->
+              <div class="form-group">
+                <label for="dob">Ngày Sinh:</label>
+                <input type="date" id="dob" class="form-control" />
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Số Điện Thoại:</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  class="form-control"
+                  placeholder="Nhập SĐT"
+                />
               </div>
               <div class="form-group">
-                <label>Số Điện Thoại:</label
-                ><input type="tel" id="prof-phone" />
+                <label for="email">Email:</label>
+                <input
+                  type="email"
+                  id="email"
+                  class="form-control"
+                  placeholder="Nhập Email"
+                />
               </div>
+
+              <!-- Thêm trường Địa Chỉ -->
               <div class="form-group">
-                <label>Email:</label><input type="email" id="prof-email" />
+                <label for="address">Địa Chỉ:</label>
+                <input
+                  type="text"
+                  id="address"
+                  class="form-control"
+                  placeholder="Nhập địa chỉ của bạn"
+                />
               </div>
-              <button type="submit" class="btn-primary margin-top">
+
+              <button type="submit" class="btn-primary">
                 Cập Nhật Thông Tin
               </button>
             </form>
           </div>
-        </section>
+        </div>
       </div>
     </main>
 
-    <!-- MODAL ĐẶT SÂN -->
-    <div class="modal" id="booking-modal">
+    <!-- ================= MODAL (POPUP) ĐỔI MẬT KHẨU ================= -->
+    <div id="passwordModal" class="modal">
       <div class="modal-content">
-        <h3 id="modal-title">Xác Nhận Đặt Sân</h3>
-        <br />
-        <div class="form-group">
-          <label>Mã Sân:</label>
-          <input type="text" id="modal-yard-id" readonly />
-        </div>
-        <div class="form-group">
-          <label>Số Giờ Thuê (tiếng):</label>
-          <input
-            type="number"
-            id="modal-duration"
-            value="1"
-            min="1"
-            max="5"
-            required
-          />
-        </div>
-        <div class="modal-actions">
-          <button class="btn-disabled" id="btn-close-modal">Hủy Bỏ</button>
-          <button class="btn-book" id="btn-confirm-booking">
-            Xác Nhận Đặt
+        <span class="close-modal" id="closePasswordModal">&times;</span>
+        <h3>Đổi Mật Khẩu</h3>
+        <form id="passwordForm">
+          <div class="form-group">
+            <label for="currentPassword">Mật Khẩu Hiện Tại (*):</label>
+            <input
+              type="password"
+              id="currentPassword"
+              class="form-control"
+              placeholder="Nhập mật khẩu cũ"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="newPassword">Mật Khẩu Mới (*):</label>
+            <input
+              type="password"
+              id="newPassword"
+              class="form-control"
+              placeholder="Nhập mật khẩu mới"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword">Xác Nhận Mật Khẩu Mới (*):</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              class="form-control"
+              placeholder="Nhập lại mật khẩu mới"
+              required
+            />
+          </div>
+          <button type="submit" class="btn-primary" style="width: 100%">
+            Xác Nhận Đổi Mật Khẩu
           </button>
-        </div>
+        </form>
       </div>
     </div>
 
+    <!-- ================= JAVASCRIPT ================= -->
     <script>
-      const API_BASE = "http://localhost:8080/api";
-      let selectedYard = null;
+      document.addEventListener("DOMContentLoaded", function () {
+        // ---- 1. XỬ LÝ CHUYỂN TAB ----
+        const menuLinks = document.querySelectorAll(".sidebar-menu a");
+        const tabContents = document.querySelectorAll(".tab-content");
+        const headerIcon = document.getElementById("header-icon");
+        const headerText = document.getElementById("header-text");
 
-      document.addEventListener("DOMContentLoaded", () => {
-        loadYardsFromBackend();
-        loadBookingHistory();
+        menuLinks.forEach((link) => {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            document
+              .querySelectorAll(".sidebar-menu li")
+              .forEach((li) => li.classList.remove("active"));
+            this.parentElement.classList.add("active");
+            const targetId = this.getAttribute("data-target");
 
-        document.querySelectorAll(".nav-tab").forEach((tab) => {
-          tab.addEventListener("click", () => {
-            const targetId = tab.getAttribute("data-tab");
-            const titleText = tab.textContent.replace(/^[^\w\s]+/, "").trim();
-            switchTab(targetId, titleText);
+            tabContents.forEach((tab) => {
+              if (tab.id === targetId) {
+                tab.classList.add("active");
+              } else {
+                tab.classList.remove("active");
+              }
+            });
+            headerText.textContent = this.textContent.trim();
+            headerIcon.className = this.querySelector("i").className;
           });
         });
 
-        document.getElementById("btn-close-modal").onclick = () => {
-          document.getElementById("booking-modal").classList.remove("active");
-        };
-        document.getElementById("btn-confirm-booking").onclick =
-          submitBookingToBackend;
+        // ---- 2. XỬ LÝ ĐÓNG/MỞ POPUP ĐỔI MẬT KHẨU ----
+        const modal = document.getElementById("passwordModal");
+        const btnOpenModal = document.getElementById("btnOpenPasswordModal");
+        const btnCloseModal = document.getElementById("closePasswordModal");
 
-        document.getElementById("btn-logout").onclick = () => {
-          localStorage.clear();
-          sessionStorage.clear();
-          window.location.href = "../LoginFrame/LoginFrame.html";
-        };
-      });
-
-      async function loadYardsFromBackend() {
-        const tbody = document.getElementById("cust-yard-table-body");
-        try {
-          const response = await fetch(`${API_BASE}/yards`);
-          if (!response.ok) throw new Error("Không thể lấy danh sách sân");
-
-          const yards = await response.json();
-          renderYardList(yards);
-        } catch (err) {
-          tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:red;">Lỗi kết nối Server Backend!</td></tr>`;
-        }
-      }
-
-      function renderYardList(yards) {
-        const tbody = document.getElementById("cust-yard-table-body");
-        tbody.innerHTML = "";
-
-        if (!yards || yards.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">Không có sân nào trong hệ thống!</td></tr>`;
-          return;
-        }
-
-        yards.forEach((yard) => {
-          const tr = document.createElement("tr");
-          const price = yard.pricePerHour || yard.price || 0;
-          const formattedPrice = new Intl.NumberFormat("vi-VN", {
-            style: "currency",
-            currency: "VND",
-          }).format(price);
-          const isAvailable =
-            yard.available !== undefined ? yard.available : true;
-
-          const statusBadge = isAvailable
-            ? `<span class="badge badge-success">Sẵn Sàng</span>`
-            : `<span class="badge badge-danger">Đang Sử Dụng</span>`;
-
-          let actionBtn = isAvailable
-            ? `<button class="btn-book" onclick="openBookingModal('${yard.yardId || yard.id}', ${price})">⚡ Đặt Sân</button>`
-            : `<button class="btn-disabled" disabled>Hết Sân</button>`;
-
-          tr.innerHTML = `
-                    <td><strong>${yard.yardId || yard.id}</strong></td>
-                    <td>${yard.yardType || yard.type || "Sân Đơn"}</td>
-                    <td>${formattedPrice}</td>
-                    <td>${statusBadge}</td>
-                    <td>${actionBtn}</td>
-                `;
-          tbody.appendChild(tr);
+        btnOpenModal.addEventListener("click", function () {
+          modal.classList.add("show");
         });
-      }
 
-      function openBookingModal(yardId, price) {
-        selectedYard = { yardId, price };
-        document.getElementById("modal-yard-id").value = yardId;
-        document.getElementById("booking-modal").classList.add("active");
-      }
+        btnCloseModal.addEventListener("click", function () {
+          modal.classList.remove("show");
+        });
 
-      async function submitBookingToBackend() {
-        const bookingData = {
-          customerCccd: localStorage.getItem("userCccd") || "001203004005",
-          yardId: selectedYard.yardId,
-          hours: parseInt(document.getElementById("modal-duration").value) || 1,
-        };
-
-        try {
-          const response = await fetch(`${API_BASE}/bookings`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(bookingData),
-          });
-
-          if (response.ok) {
-            alert("Đặt sân thành công!");
-            document.getElementById("booking-modal").classList.remove("active");
-            loadYardsFromBackend();
-            loadBookingHistory();
-          } else {
-            alert("Đặt sân thất bại! Sân có thể đã được sử dụng.");
+        window.addEventListener("click", function (event) {
+          if (event.target == modal) {
+            modal.classList.remove("show");
           }
-        } catch (error) {
-          alert("Lỗi kết nối Backend: " + error.message);
-        }
-      }
-
-      async function loadBookingHistory() {
-        const tbody = document.getElementById("cust-history-table-body");
-        const cccd = localStorage.getItem("userCccd") || "001203004005";
-
-        try {
-          const response = await fetch(`${API_BASE}/invoices/customer/${cccd}`);
-          if (!response.ok) throw new Error("Không thể lấy lịch sử");
-
-          const history = await response.json();
-          renderHistoryList(history);
-        } catch (err) {
-          tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#64748b;">Chưa có lịch sử hoặc chưa kết nối Backend.</td></tr>`;
-        }
-      }
-
-      function renderHistoryList(history) {
-        const tbody = document.getElementById("cust-history-table-body");
-        tbody.innerHTML = "";
-
-        if (!history || history.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;">Chưa có dữ liệu đặt sân.</td></tr>`;
-          return;
-        }
-
-        history.forEach((item) => {
-          const tr = document.createElement("tr");
-          const price = item.total || item.totalPrice || 0;
-          const formattedPrice = new Intl.NumberFormat("vi-VN", {
-            style: "currency",
-            currency: "VND",
-          }).format(price);
-
-          tr.innerHTML = `
-                    <td><strong>#${item.invoiceId || item.id}</strong></td>
-                    <td>${item.yardId}</td>
-                    <td>${item.fromDate || "-"}</td>
-                    <td>${item.toDate || "-"}</td>
-                    <td>${formattedPrice}</td>
-                    <td><span class="badge badge-success">Đã Thanh Toán</span></td>
-                `;
-          tbody.appendChild(tr);
         });
-      }
-
-      function switchTab(targetId, titleText) {
-        document
-          .querySelectorAll(".nav-tab")
-          .forEach((t) => t.classList.remove("active"));
-        document
-          .querySelectorAll(".tab-content")
-          .forEach((c) => c.classList.remove("active"));
-
-        const activeContent = document.getElementById(targetId);
-        if (activeContent) activeContent.classList.add("active");
-
-        const matchedTab = document.querySelector(
-          `.nav-tab[data-tab="${targetId}"]`,
-        );
-        if (matchedTab) matchedTab.classList.add("active");
-
-        const titleHeader = document.getElementById("current-tab-title");
-        if (titleText && titleHeader) titleHeader.textContent = titleText;
-      }
+      });
     </script>
   </body>
 </html>

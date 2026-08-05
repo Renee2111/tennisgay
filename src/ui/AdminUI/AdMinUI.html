@@ -3,275 +3,203 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hệ Thống Quản Lý Sân Tennis - Admin</title>
+    <title>Admin Dashboard - Quản lý nhân viên</title>
+    <!-- Link file CSS -->
     <link rel="stylesheet" href="AdMinUI.css" />
+    <!-- Font Awesome để dùng Icon -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
   </head>
   <body>
-    <aside class="sidebar">
-      <div>
-        <div class="brand">🎾 Tennis Center Admin</div>
-        <ul class="nav-menu">
-          <li class="nav-tab active" data-tab="employees">
-            👥 Quản Lý Nhân Viên
-          </li>
-          <li class="nav-tab" data-tab="yards">🏟️ Quản Lý Sân Tennis</li>
-          <li class="nav-tab" data-tab="customers">👤 Quản Lý Khách Hàng</li>
-        </ul>
-      </div>
-      <div class="logout-container">
-        <button id="btn-logout" class="btn-logout">🚪 Đăng Xuất</button>
-      </div>
-    </aside>
-
-    <div class="main-wrapper">
-      <header class="header">
-        <div class="header-title" id="current-tab-title">Quản Lý Nhân Viên</div>
-        <div class="admin-info">
-          <span>Xin chào, <strong>Quản Trị Viên</strong></span>
+    <div class="admin-container">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <i class="fa-solid fa-building"></i>
+          <span>Web Tuất</span>
         </div>
-      </header>
+        <ul class="sidebar-menu">
+          <li>
+            <a href="Dashboard.html"
+              ><i class="fa-solid fa-chart-pie"></i> Tổng quan</a
+            >
+          </li>
+          <li class="active">
+            <a href="AdMinUI.html"
+              ><i class="fa-solid fa-users"></i> Quản lý nhân viên</a
+            >
+          </li>
+          <li>
+            <a href="Attendance.html"
+              ><i class="fa-solid fa-calendar-check"></i> Chấm công</a
+            >
+          </li>
+          <li>
+            <a href="Payroll.html"
+              ><i class="fa-solid fa-file-invoice-dollar"></i> Lương thưởng</a
+            >
+          </li>
+          <li>
+            <a href="Settings.html"><i class="fa-solid fa-gear"></i> Cài đặt</a>
+          </li>
+        </ul>
+      </aside>
 
-      <main class="content-area">
-        <!-- Tab 1: Nhân Viên -->
-        <section id="employees" class="tab-content active">
-          <div class="action-bar">
-            <h3>Danh sách Nhân Viên</h3>
-            <button class="btn-primary">➕ Thêm Nhân Viên Mới</button>
+      <!-- MAIN CONTENT -->
+      <main class="main-content">
+        <!-- HEADER -->
+        <header class="top-header">
+          <div class="header-left">
+            <h2>Danh sách nhân viên</h2>
           </div>
-          <div class="table-card">
-            <table>
-              <thead>
-                <tr>
-                  <th>Mã NV / CCCD</th>
-                  <th>CCCD</th>
-                  <th>Họ và Tên</th>
-                  <th>Số Điện Thoại</th>
-                  <th>Email</th>
-                  <th>Chức Vụ</th>
-                  <th>Thao Tác</th>
-                </tr>
-              </thead>
-              <tbody id="emp-table-body">
-                <tr>
-                  <td colspan="7" style="text-align: center">
-                    Đang tải dữ liệu nhân viên...
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="header-right">
+            <div class="search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" placeholder="Tìm kiếm..." />
+            </div>
+            <div class="user-profile">
+              <!-- Để trống chờ Backend -->
+              <img
+                src=""
+                alt=""
+                style="
+                  background-color: #e2e8f0;
+                  width: 40px;
+                  height: 40px;
+                  border-radius: 50%;
+                "
+              />
+              <span id="headerAdminName"></span>
+            </div>
           </div>
-        </section>
+        </header>
 
-        <!-- Tab 2: Sân Tennis -->
-        <section id="yards" class="tab-content">
-          <div class="action-bar">
-            <h3>Danh sách Sân Tennis</h3>
-            <button class="btn-primary">➕ Thêm Sân Mới</button>
-          </div>
-          <div class="table-card">
-            <table>
-              <thead>
-                <tr>
-                  <th>Mã Sân</th>
-                  <th>Loại Sân</th>
-                  <th>Giá / Giờ</th>
-                  <th>Trạng Thái</th>
-                  <th>Thao Tác</th>
-                </tr>
-              </thead>
-              <tbody id="yard-table-body">
-                <tr>
-                  <td colspan="5" style="text-align: center">
-                    Đang tải dữ liệu sân...
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <!-- Tab 3: Khách Hàng -->
-        <section id="customers" class="tab-content">
-          <div class="action-bar">
-            <h3>Danh sách Khách Hàng</h3>
-            <button class="btn-primary">➕ Thêm Khách Hàng Mới</button>
-          </div>
-          <div class="table-card">
-            <table>
-              <thead>
-                <tr>
-                  <th>CCCD</th>
-                  <th>Họ và Tên</th>
-                  <th>Số Điện Thoại</th>
-                  <th>Email</th>
-                  <th>Địa Chỉ</th>
-                  <th>Thao Tác</th>
-                </tr>
-              </thead>
-              <tbody id="cust-table-body">
-                <tr>
-                  <td colspan="6" style="text-align: center">
-                    Đang tải dữ liệu khách hàng...
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+        <!-- NỘI DUNG CHÍNH (BẢNG NHÂN VIÊN) -->
+        <section class="content-area">
+          <div class="card">
+            <div class="card-header">
+              <h3>Nhân sự hiện tại</h3>
+              <!-- NÚT MỞ MODAL THÊM NHÂN VIÊN -->
+              <button id="openAddEmployeeModalBtn" class="btn-primary">
+                <i class="fa-solid fa-plus"></i> Thêm nhân viên
+              </button>
+            </div>
+            <div class="card-body">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Họ và Tên</th>
+                    <th>Email</th>
+                    <th>Phân quyền</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                  </tr>
+                </thead>
+                <tbody id="employeeTableBody">
+                  <!-- Trắng: Đợi render vòng lặp dữ liệu từ Backend -->
+                </tbody>
+              </table>
+            </div>
           </div>
         </section>
       </main>
     </div>
 
-    <script>
-      const API_BASE = "http://localhost:8080/api";
+    <!-- MODAL CẤP TÀI KHOẢN NHÂN VIÊN -->
+    <div id="addEmployeeModal" class="modal-overlay hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Cấp tài khoản nhân viên mới</h3>
+          <span class="close-btn" id="closeAddEmployeeModalBtn">&times;</span>
+        </div>
 
-      document.addEventListener("DOMContentLoaded", () => {
-        document.querySelectorAll(".nav-tab").forEach((tab) => {
-          tab.addEventListener("click", () => {
-            const targetId = tab.getAttribute("data-tab");
-            const titleText = tab.textContent.replace(/^[^\w\s]+/, "").trim();
-            switchTab(targetId, titleText);
-          });
+        <div class="modal-body">
+          <form id="addEmployeeForm">
+            <div class="form-group">
+              <label for="empName">Họ và Tên</label>
+              <input
+                type="text"
+                id="empName"
+                placeholder="Nhập họ và tên..."
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="empEmail">Email / Tài khoản đăng nhập</label>
+              <input
+                type="email"
+                id="empEmail"
+                placeholder="ví dụ: nhanvien@congty.com"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="empPassword">Mật khẩu khởi tạo</label>
+              <input
+                type="password"
+                id="empPassword"
+                placeholder="Nhập mật khẩu..."
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="empRole">Phân quyền</label>
+              <select id="empRole">
+                <option value="staff">Nhân viên (Staff)</option>
+                <option value="manager">Quản lý (Manager)</option>
+              </select>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="cancelBtn">
+            Hủy
+          </button>
+          <button type="submit" form="addEmployeeForm" class="btn-primary">
+            Tạo tài khoản
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- JAVASCRIPT XỬ LÝ MODAL -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const modal = document.getElementById("addEmployeeModal");
+        const openBtn = document.getElementById("openAddEmployeeModalBtn");
+        const closeBtn = document.getElementById("closeAddEmployeeModalBtn");
+        const cancelBtn = document.getElementById("cancelBtn");
+        const form = document.getElementById("addEmployeeForm");
+
+        const openModal = () => modal.classList.remove("hidden");
+        const closeModal = () => {
+          modal.classList.add("hidden");
+          form.reset(); // Xóa trắng form khi đóng
+        };
+
+        openBtn.addEventListener("click", openModal);
+        closeBtn.addEventListener("click", closeModal);
+        cancelBtn.addEventListener("click", closeModal);
+
+        // Bấm ra ngoài form thì đóng
+        window.addEventListener("click", (e) => {
+          if (e.target === modal) closeModal();
         });
 
-        const logoutBtn = document.getElementById("btn-logout");
-        if (logoutBtn) {
-          logoutBtn.addEventListener("click", () => {
-            localStorage.clear();
-            sessionStorage.clear();
-            window.location.href = "../LoginFrame/LoginFrame.html";
-          });
-        }
-
-        loadAdminData();
+        // Submit form
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          alert(
+            "Đã cấp tài khoản thành công cho: " +
+              document.getElementById("empName").value,
+          );
+          closeModal();
+        });
       });
-
-      function loadAdminData() {
-        loadEmployees();
-        loadYards();
-        loadCustomers();
-      }
-
-      async function loadEmployees() {
-        const tbody = document.getElementById("emp-table-body");
-        try {
-          const response = await fetch(`${API_BASE}/employees`);
-          if (!response.ok) throw new Error("Lỗi gọi API Nhân viên");
-          const employees = await response.json();
-
-          tbody.innerHTML = "";
-          if (!employees || employees.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;">Chưa có dữ liệu nhân viên!</td></tr>`;
-            return;
-          }
-
-          employees.forEach((emp) => {
-            const tr = document.createElement("tr");
-            tr.innerHTML = `
-                        <td><strong>${emp.employeeId || emp.id || "NV"}</strong></td>
-                        <td>${emp.cccd || emp.employeeCccd || "-"}</td>
-                        <td>${emp.name || emp.fullName || "-"}</td>
-                        <td>${emp.phone || "-"}</td>
-                        <td>${emp.email || "-"}</td>
-                        <td>${emp.position || emp.role || "Nhân viên"}</td>
-                        <td><button class="btn-secondary btn-sm">Sửa</button></td>
-                    `;
-            tbody.appendChild(tr);
-          });
-        } catch (err) {
-          tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:red;">Lỗi kết nối Server C++!</td></tr>`;
-        }
-      }
-
-      async function loadYards() {
-        const tbody = document.getElementById("yard-table-body");
-        try {
-          const response = await fetch(`${API_BASE}/yards`);
-          if (!response.ok) throw new Error("Lỗi gọi API Sân");
-          const yards = await response.json();
-
-          tbody.innerHTML = "";
-          if (!yards || yards.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">Chưa có dữ liệu sân!</td></tr>`;
-            return;
-          }
-
-          yards.forEach((yard) => {
-            const tr = document.createElement("tr");
-            const price = yard.pricePerHour || yard.price || 0;
-            const formattedPrice = new Intl.NumberFormat("vi-VN", {
-              style: "currency",
-              currency: "VND",
-            }).format(price);
-            const isAvailable =
-              yard.available !== undefined ? yard.available : true;
-
-            const statusTag = isAvailable
-              ? `<span style="color: #16a34a; font-weight: bold;">Sẵn Sàng</span>`
-              : `<span style="color: #dc2626; font-weight: bold;">Đang Dùng / Bảo Trì</span>`;
-
-            tr.innerHTML = `
-                        <td><strong>${yard.yardId || yard.id}</strong></td>
-                        <td>${yard.yardType || yard.type || "Sân Đơn"}</td>
-                        <td>${formattedPrice}</td>
-                        <td>${statusTag}</td>
-                        <td><button class="btn-secondary btn-sm">Cập nhật</button></td>
-                    `;
-            tbody.appendChild(tr);
-          });
-        } catch (err) {
-          tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:red;">Lỗi kết nối Server C++!</td></tr>`;
-        }
-      }
-
-      async function loadCustomers() {
-        const tbody = document.getElementById("cust-table-body");
-        try {
-          const response = await fetch(`${API_BASE}/customers`);
-          if (!response.ok) throw new Error("Lỗi gọi API Khách hàng");
-          const customers = await response.json();
-
-          tbody.innerHTML = "";
-          if (!customers || customers.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;">Chưa có dữ liệu khách hàng!</td></tr>`;
-            return;
-          }
-
-          customers.forEach((cust) => {
-            const tr = document.createElement("tr");
-            tr.innerHTML = `
-                        <td><strong>${cust.cccd || cust.customerCccd || "-"}</strong></td>
-                        <td>${cust.name || cust.fullName || "-"}</td>
-                        <td>${cust.phone || "-"}</td>
-                        <td>${cust.email || "-"}</td>
-                        <td>${cust.address || "-"}</td>
-                        <td><button class="btn-secondary btn-sm">Sửa</button></td>
-                    `;
-            tbody.appendChild(tr);
-          });
-        } catch (err) {
-          tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:red;">Lỗi kết nối Server C++!</td></tr>`;
-        }
-      }
-
-      function switchTab(targetId, titleText) {
-        document
-          .querySelectorAll(".nav-tab")
-          .forEach((t) => t.classList.remove("active"));
-        document
-          .querySelectorAll(".tab-content")
-          .forEach((c) => c.classList.remove("active"));
-
-        const activeContent = document.getElementById(targetId);
-        if (activeContent) activeContent.classList.add("active");
-
-        const matchedTab = document.querySelector(
-          `.nav-tab[data-tab="${targetId}"]`,
-        );
-        if (matchedTab) matchedTab.classList.add("active");
-
-        const titleHeader = document.getElementById("current-tab-title");
-        if (titleText && titleHeader) titleHeader.textContent = titleText;
-      }
     </script>
   </body>
 </html>

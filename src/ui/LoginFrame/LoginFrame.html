@@ -31,74 +31,19 @@
             <input type="checkbox" id="remember-me" name="remember" />
             <label for="remember-me">Ghi nhớ mật khẩu</label>
           </div>
-          <a href="#" class="forgot-password">Quên mật khẩu?</a>
+          <!-- Cập nhật link sang trang Quên mật khẩu -->
+          <a href="ForgotPassword.html" class="forgot-password"
+            >Quên mật khẩu?</a
+          >
         </div>
 
         <button type="submit">Đăng nhập</button>
 
         <div class="register-group">
-          <p>Chưa có tài khoản? <a href="#">Đăng ký</a></p>
+          <!-- Cập nhật link sang trang Đăng ký -->
+          <p>Chưa có tài khoản? <a href="Register.html">Đăng ký</a></p>
         </div>
       </form>
     </div>
-
-    <script>
-      document
-        .getElementById("loginForm")
-        .addEventListener("submit", async function (e) {
-          e.preventDefault();
-
-          const usernameInput = document
-            .getElementById("username")
-            .value.trim();
-          const passwordInput = document
-            .getElementById("password")
-            .value.trim();
-
-          try {
-            const response = await fetch(
-              "http://localhost:8080/api/auth/login",
-              {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  username: usernameInput,
-                  password: passwordInput,
-                }),
-              },
-            );
-
-            const data = await response.json();
-
-            if (response.ok && (data.success || data.token)) {
-              alert("Đăng nhập thành công!");
-
-              localStorage.setItem("userRole", data.role);
-              localStorage.setItem("username", data.username || usernameInput);
-              if (data.cccd) {
-                localStorage.setItem("userCccd", data.cccd);
-              }
-
-              // Chuyển hướng theo role (0: Admin, 1: Employee, 2: Customer)
-              if (data.role == 0) {
-                window.location.href = "../AdminUI/AdminUI.html";
-              } else if (data.role == 1) {
-                window.location.href = "../EmployeeUI/EmployeeUI.html";
-              } else if (data.role == 2) {
-                window.location.href = "../CustomerUI/CustomerUI.html";
-              } else {
-                alert("Vai trò người dùng không hợp lệ!");
-              }
-            } else {
-              alert(data.message || "Sai tên đăng nhập hoặc mật khẩu!");
-            }
-          } catch (error) {
-            console.error("Lỗi kết nối:", error);
-            alert(
-              "Không thể kết nối tới Server C++! Hãy kiểm tra Server Backend C++.",
-            );
-          }
-        });
-    </script>
   </body>
 </html>

@@ -1,95 +1,89 @@
-body {
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
-  background: #f2f2f2;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  /* Nền kết hợp xanh dương đậm và xanh tennis */
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
+  padding: 20px;
 }
 
-/* Khung login */
 .login-box {
-  width: 350px;
-  background: white;
-  padding: 30px;
+  background-color: #ffffff;
+  padding: 30px 40px;
   border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 450px; /* Mở rộng một chút để form đăng ký nhìn thoáng hơn */
 }
 
-/* Title */
 .login-box h2 {
   text-align: center;
+  color: #333;
   margin-bottom: 25px;
+  font-size: 24px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-/* Label mặc định cho các ô nhập liệu */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
 label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: bold;
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 5px;
+  font-weight: 600;
 }
 
-/* Input dạng chữ/mật khẩu mặc định */
+/* Cập nhật thêm các type mới: tel, email, date để chúng có style giống input text */
 input[type="text"],
-input[type="password"] {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 18px;
+input[type="password"],
+input[type="tel"],
+input[type="email"],
+input[type="date"] {
+  padding: 12px;
+  margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  box-sizing: border-box;
+  font-size: 14px;
+  transition: border-color 0.3s;
 }
 
-button {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  background: #007bff;
-  color: white;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
+input:focus {
+  border-color: #2a5298;
+  outline: none;
+  box-shadow: 0 0 5px rgba(42, 82, 152, 0.3);
 }
 
-button:hover {
-  background: #0056b3;
-}
-
-/* Căn hàng ngang cho Ghi nhớ & Quên mật khẩu */
 .options-group {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .remember-group {
   display: flex;
   align-items: center;
-  gap: 6px;
 }
 
-/* Sửa lỗi ô checkbox bị phình 100% */
-.remember-group input[type="checkbox"] {
-  width: auto; /* Không chiếm 100% chiều rộng */
-  margin: 0; /* Xóa margin-bottom 18px */
-  cursor: pointer;
-}
-
-/* Sửa lỗi chữ label bị bắt xuống dòng */
-.remember-group label {
-  display: inline; /* Ghi đè display: block */
-  margin: 0;
-  font-weight: normal; /* Bỏ in đậm nếu muốn nhẹ nhàng hơn */
-  cursor: pointer;
-  user-select: none;
+.remember-group input {
+  margin-right: 5px;
 }
 
 .forgot-password {
-  color: #0066cc;
+  color: #2a5298;
   text-decoration: none;
 }
 
@@ -97,21 +91,33 @@ button:hover {
   text-decoration: underline;
 }
 
-/* Phần Đăng ký ở bên dưới nút bấm */
+button {
+  background-color: #28a745; /* Màu xanh lá chuẩn thể thao/tennis */
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #218838;
+}
+
 .register-group {
   text-align: center;
-  margin-top: 15px;
+  margin-top: 20px;
   font-size: 14px;
 }
 
-.register-group p {
-  margin: 0;
-}
-
 .register-group a {
-  color: #0066cc;
-  font-weight: bold;
+  color: #2a5298;
   text-decoration: none;
+  font-weight: 600;
 }
 
 .register-group a:hover {
