@@ -1,0 +1,46 @@
+[
+  {
+    "id": "ADM01",
+    "username": "admin",
+    "password": "123",
+    "fullname": "Quản Lý Hệ Thống",
+    "role": 0
+  },
+  {
+    "id": "NV01",
+    "username": "employee",
+    "password": "123",
+    "fullname": "Trần Văn Nhân Viên",
+    "role": 1
+  },
+  {
+    "id": "KH01",
+    "username": "customer",
+    "password": "123",
+    "fullname": "Nguyễn Văn Khách",
+    "cccd": "012345678910",
+    "phone": "0901234567",
+    "email": "khachhang@gmail.com",
+    "role": 2
+  },
+  {
+    "id": "KH9745",
+    "username": "1",
+    "password": "1",
+    "fullname": "Nguyen Viet Viet Quoc IT01",
+    "email": "0@gmail.com",
+    "phone": "0377149362",
+    "cccd": "1",
+    "role": 2
+  },
+  {
+    "id": "KH4634",
+    "username": "2",
+    "password": "1",
+    "fullname": "1",
+    "email": "4@gmail.com",
+    "phone": "0377149961",
+    "cccd": "12345",
+    "role": 2
+  }
+]
