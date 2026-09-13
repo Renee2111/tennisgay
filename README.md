@@ -1,140 +1,87 @@
-# HỆ THỐNG QUẢN LÝ SÂN TENNIS
+# 🎾 SÂN TENNIS VIỆT QUỐC - Quản Lý & Đặt Sân Tennis
 
-## 1.Phát biểu bài toán
-**Tổng quan về đề tài**
--Xây dựng hệ thống phần mềm quản lý đặt sân tennis cho phép quản lý thông tin: nhân viên, khách hàng, sân và hoá đơn. Hệ thống hỗ trợ thao tác thêm, sửa, xoá, danh sách, tìm kiếm, lưu/đọc dữ liệu từ file và thống kê doanh thu.
-
-### CÁC TÍNH NĂNG CHÍNH
-
-- **Hệ thống xác thực theo vai trò**: Đăng nhập/ Đăng ký với ba vai trò là (Admin, Nhân viên, Khách hàng).
-- **Quản lý khách hàng**: Thêm, sửa, xoá thông tin khách hàng.
-- **Quản lý nhân viên**: Quản lý nhân viên theo vị trí và lương.
-- **Quản lý sân**: Quản lý sân, giá và trạng thái có hay không.
-- **Chức năng tìm kiếm**: Tìm kiếm sân theo ID, khách hàng theo cccd, hoá đơn theo ID.
-- **Thống kê**: Thống kê doanh thu, khách hàng đứng đầu, hoá đơn theo nhân viên.
-- **Lưu trữ dữ liệu**: Tất cả các tệp tự động lưu vào các tệp CSV trong thư mục data.
+Hệ thống quản lý và đặt sân Tennis trực tuyến được nâng cấp từ phiên bản Core C++ sang kiến trúc Web Application hiện đại với Giao diện người dùng (UI) tương tác trực quan và Backend Node.js / Express.
 
 ---
-## 2.Cấu trúc dữ liệu
 
-### Phân tích các lớp và mối quan hệ
+## 📌 1. Giới thiệu dự án
 
-  Person (Lớp Cơ Sở Trừu Tượng)
-  ├── Customer (Khách Hàng)
-  └── Employee (Nhân Viên)
-  
-  Yard (Sân - Độc Lập)
-  
-  Invoice (Hóa Đơn - Độc Lập)
-  
-  YardManager (Lớp Quản Lý Chính - Độc Lập)
-  
-  Account (Tài Khoản - Độc Lập)
-  
-  AuthManager (Quản Lý Xác Thực - Độc Lập)
+Ban đầu, dự án **Sân Tennis Việt Quốc** được phát triển nền tảng xử lý dữ liệu bằng **C++**. Để tối ưu trải nghiệm người dùng, mở rộng tính năng tương tác và phân quyền sử dụng linh hoạt, dự án đã được chuyển đổi & tái cấu trúc toàn bộ sang mô hình Web:
+* **Frontend:** Giao diện người dùng dạng Web (HTML5, CSS3, JavaScript ES6+).
+* **Backend:** Server Node.js sử dụng framework Express.js.
+* **Cơ sở dữ liệu:** Quản lý và lưu trữ dữ liệu người dùng qua cấu trúc file JSON (`data/user.json`).
 
-### Mô tả chi tiết các lớp
-#### **Person**(Lớp Cơ Sở)
-Lớp cơ sở cho tất cả người dùng của hệ thống.
+---
 
-**Thuộc tính**
-- `cccd`(string):số cccd
-- `name`(string):tên
-- `phone`(string):số điện thoại
-- `email`(string):địa chỉ email
-**Phương thức**
-- `getCccd()`,`getName()`,`getPhone()`,`getEmail()`:Hàm lấy dữ liệu.
-- `setName()`,`setPhone()`,`setEmail()`:Hàm đặt dữ liệu.
-- `toCSV()`: Chuyển đổi sang định dạng CSV (thuẩn ảo)
+## 🏗️ 2. Cấu trúc thư mục dự án
 
-#### **Customer** (Kế Thừa từ Person)
-Đại diện cho một khách hàng.
+```text
+tennisgay/
+├── data/
+│   └── user.json          # File lưu trữ dữ liệu người dùng (JSON database)
+├── src/
+│   └── ui/
+│       ├── LoginFrame/    # Giao diện Đăng nhập (HTML, CSS, JS)
+│       ├── RegisterFrame/ # Giao diện Đăng ký tài khoản
+│       ├── AdminUI/       # Giao diện dành cho Quản trị viên (Role 0)
+│       ├── EmployeeUI/    # Giao diện dành cho Nhân viên (Role 1)
+│       └── CustomerUI/    # Giao diện dành cho Khách hàng (Role 2)
+├── server.js              # Entry point của Node.js / Express Backend Server
+├── package.json           # Khai báo dependencies (express, cors, v.v.)
+└── README.md              # Tài liệu hướng dẫn dự án
+```
 
-**Được kế thức toàn bộ thuộc tính và phương thức lấy từ person(Lớp cha)**
+---
 
-**Thuộc Tính Bổ Sung:**
-- `birthdate` (string): Ngày sinh (định dạng YYYY-MM-DD)
-- `address` (string): Địa chỉ cư trú
+## 🔑 3. Các tính năng chính
 
-**Phương Thức Mới:**
-- `getBirthdate()`, `getAddress()`: Các hàm lấy dữ liệu
-- `toCSV()`: Tuần tự hóa CSV
+* **Phân quyền người dùng (Role-based Authorization):**
+  * `Role 0 (Admin)`: Quản lý toàn bộ hệ thống sân, nhân viên và thống kê.
+  * `Role 1 (Employee)`: Quản lý lịch đặt sân, duyệt sân và hỗ trợ khách hàng.
+  * `Role 2 (Customer)`: Đặt lịch sân tennis, xem trạng thái và lịch sử đặt sân.
+* **Xác thực & Lưu trữ:**
+  * Đăng ký/Đăng nhập hệ thống với kiểm tra trùng lặp (Username, Email, CCCD).
+  * Tự động lưu thông tin phiên làm việc qua `localStorage`.
+* **API RESTful & Static File Serving:**
+  * Phục vụ static UI linh hoạt từ thư mục `src/ui`.
+  * API kiểm tra, đọc/ghi file `user.json` an toàn từ Server Backend.
 
-#### **Employee** (Kế Thừa từ Person)
-Đại diện cho một nhân viên.
+---
 
-**Được kế thức toàn bộ thuộc tính và phương thức lấy từ person(Lớp cha)**
+## 🚀 4. Hướng dẫn cài đặt và khởi chạy
 
-**Thuộc Tính Bổ Sung:**
-- `position` (string): Vị trí công việc (ví dụ: Admin, Nhân Viên)
-- `salary` (double): Lương hàng tháng
+### Yêu cầu tiên quyết
+* Đã cài đặt [Node.js](https://nodejs.org/) (khuyên dùng bản LTS).
 
-**Phương Thức Mới:**
-- `getPosition()`, `getSalary()`: Các hàm lấy dữ liệu
-- `toCSV()`: Tuần tự hóa CSV
+### Các bước khởi chạy Server
 
-#### **Yard** (Sân)
-Đại diện cho một sân Tennis.
+1. **Clone repository về máy:**
+   ```bash
+   git clone https://github.com/Renee2111/tennisgay.git
+   cd tennisgay
+   ```
 
-**Thuộc Tính:**
-- `yardId` (string): Mã sân duy nhất 
-- `yardType` (string): Loại phòng (ví dụ:Vip,Thuong,Sang)
-- `pricePerHour` (double): Giá mỗi giờ
-- `available` (bool): Trạng thái sẵn có (true = có sẵn, false = đã đặt)
+2. **Cài đặt các thư viện cần thiết:**
+   ```bash
+   npm install
+   ```
+   *(Các thư viện chính bao gồm: `express`, `cors`)*
 
-**Phương Thức:**
-- `getYardId()`, `getYardType()`, `getPricePerHour()`, `getAvailable()`: Các hàm lấy dữ liệu
-- `setAvailable()`: Đặt trạng thái sẵn có
-- `toCSV()`: Tuần tự hóa CSV
+3. **Khởi chạy Server Node.js:**
+   ```bash
+   node server.js
+   ```
+   *(Hoặc file server của bạn như `node server_2.js`)*
 
-#### **Invoice** (Hóa Đơn)
-Đại diện cho một đơn đặt sân/hóa đơn khách hàng.
+4. **Truy cập ứng dụng:**
+   * Mở trình duyệt web và truy cập: `http://localhost:3000`
+   * Trang giao diện Đăng nhập (`LoginFrame.html`) sẽ tự động xuất hiện.
 
-**Thuộc Tính:**
-- `invoiceId` (string): Mã hóa đơn duy nhất
-- `customerCccd` (string): Tham chiếu đến CCCD khách hàng
-- `employeeCccd` (string): Tham chiếu đến CCCD nhân viên tạo hóa đơn
-- `yardId` (string): Tham chiếu đến phòng được đặt
-- `dateFrom` (string): Giờ ngày nhận sân (AA:AA YYYY-MM-DD)
-- `dateTo` (string): Giờ ngày trả sân (AA:AA YYYY-MM-DD)
-- `total` (double): Tổng số tiền tính phí
+---
 
-**Phương Thức:**
-- `getInvoiceId()`, `getCustomerCccd()`, `getEmployeeCccd()`, `getYardId()`, `getDateFrom()`, `getDateTo()`, `getTotal()`: Các hàm lấy dữ liệu
-- `toCSV()`: Tuần tự hóa CSV
+## 🛠️ 5. Công nghệ sử dụng
 
-#### **Account** (Tài Khoản)
-Đại diện cho một tài khoản người dùng trong hệ thống xác thực.
-
-**Thuộc Tính:**
-- `username` (string): Tên đăng nhập duy nhất
-- `password` (string): Mật khẩu (lưu trữ dạng văn bản cho mục đích demo)
-- `role` (int): Vai trò người dùng (0 = Admin, 1 = Nhân Viên, 2 = Khách Hàng)
-- `cccd` (string): CCCD liên kết (trống cho Admin)
-
-**Phương Thức:**
-- `getUsername()`, `getPassword()`, `getRole()`, `getCccd()`: Các hàm lấy dữ liệu
-- `toCSV()`: Tuần tự hóa CSV
-
-#### **YardManager** (Lớp Quản Lý Chính)
-Lớp quản lý trung tâm điều phối tất cả các hoạt động của chương trình.
-
-**Thuộc Tính:**
-- `dataDir` (string): Đường dẫn đến thư mục dữ liệu
-- `customers` (vector<Customer>): Tất cả khách hàng
-- `employees` (vector<Employee>): Tất cả nhân viên
-- `yards` (vector<Room>): Tất cả sân
-- `invoices` (vector<Invoice>): Tất cả hóa đơn
-- `currentUser` (Account): Tài khoản người dùng hiện tại đã đăng nhập
-
-**Phương Thức Chính:**
-- `loadAll()`, `saveAll()`: Tải/lưu tất cả dữ liệu
-- `loginMenu()`: Menu đăng nhập/đăng ký
-- `adminMenu()`, `staffMenu()`, `customerMenu()`: Các menu dựa trên vai trò
-- `employeeMenu()`, `yardMenu()`, `invoiceMenu()`: Các hàm menu quản lý
-- `searchMenu()`, `statsMenu()`: Các hàm tìm kiếm và thống kê
-- `runConsole()`: Vòng lặp bảng điều khiển chính
-
-  
-
-  
+* **Languages:** JavaScript (ES6+), HTML5, CSS3
+* **Runtime & Framework:** Node.js, Express.js
+* **Data Storage:** JSON File Storage (`fs` module)
+* **Dev Tools:** Visual Studio Code, Git, GitHub
