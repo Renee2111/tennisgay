@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 });
 
+// Hàm lấy dữ liệu từ file user.json và lưu vào LocalStorage nếu chưa có
 async function loadUserDataFromFile() {
   if (!localStorage.getItem("USERS_DATA")) {
     try {
@@ -22,7 +23,7 @@ async function loadUserDataFromFile() {
   }
 }
 
-function handleForgotPassword(e) {
+async function handleForgotPassword(e) {
   e.preventDefault();
 
   const identifier = document
@@ -34,6 +35,7 @@ function handleForgotPassword(e) {
   const confirmNewPassword =
     document.getElementById("confirmNewPassword").value;
 
+  // 1. Kiểm tra mật khẩu xác nhận
   if (newPassword !== confirmNewPassword) {
     alert("Mật khẩu xác nhận không khớp!");
     return;
@@ -41,6 +43,7 @@ function handleForgotPassword(e) {
 
   let users = JSON.parse(localStorage.getItem("USERS_DATA")) || [];
 
+  // 2. Tìm tài khoản khớp Tên đăng nhập/Email VÀ Số CCCD
   const userIndex = users.findIndex((u) => {
     const matchIdentifier =
       (u.username && u.username.toLowerCase() === identifier) ||
@@ -55,7 +58,7 @@ function handleForgotPassword(e) {
     return;
   }
 
-  // CHẶN: Chỉ tài khoản Khách hàng (role === 2) mới được đổi mật khẩu
+  // 3. Phân quyền: Chỉ tài khoản Khách hàng (role === 2) mới được đổi mật khẩu
   if (users[userIndex].role !== 2) {
     alert(
       "Chức năng quên mật khẩu chỉ áp dụng cho Khách hàng! Tài khoản Quản lý và Nhân viên vui lòng liên hệ Admin hệ thống.",
@@ -63,9 +66,37 @@ function handleForgotPassword(e) {
     return;
   }
 
-  users[userIndex].password = newPassword;
-  localStorage.setItem("USERS_DATA", JSON.stringify(users));
+  const userId = users[userIndex].id;
 
-  alert("Cập nhật mật khẩu thành công! Vui lòng đăng nhập lại.");
-  window.location.href = "LoginFrame.html";
+  // 4. Gửi API tới Server Node.js để ghi đè mật khẩu mới vào file user.json
+  try {
+    const response = await fetch("/api/update-password", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: userId,
+        newPassword: newPassword,
+      }),
+    });
+
+    const result = await response.json();
+
+    if (response.ok && result.success) {
+      // 5. Cập nhật thành công ở Server -> Cập nhật tiếp vào LocalStorage
+      users[userIndex].password = newPassword;
+      localStorage.setItem("USERS_DATA", JSON.stringify(users));
+
+      alert(
+        "Cập nhật mật khẩu thành công! Dữ liệu đã lưu vào user.json. Vui lòng đăng nhập lại.",
+      );
+      window.location.href = "LoginFrame.html";
+    } else {
+      alert(result.message || "Đổi mật khẩu thất bại trên Server!");
+    }
+  } catch (error) {
+    console.error("Lỗi kết nối Server:", error);
+    alert("Không thể kết nối đến Server Node.js để lưu mật khẩu!");
+  }
 }
